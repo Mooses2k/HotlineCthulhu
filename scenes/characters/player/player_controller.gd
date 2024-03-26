@@ -174,7 +174,7 @@ func _physics_process(delta : float):
 	throw_item = null
 	current_grab_object = current_control_mode.get_grab_target()
 	
-	### TODO: many of these shouldn't be here and probably shouldn't be checked every _physics_process (moved in _input()?)
+	# TODO: many of these shouldn't be here and probably shouldn't be checked every _physics_process (moved in _input()?)
 	_walk(delta)
 	_crouch()
 	handle_grab(delta)

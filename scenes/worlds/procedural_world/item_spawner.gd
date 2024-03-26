@@ -10,26 +10,21 @@ const ITEM_POSITION_OFFSET = Vector3(0.75, 1.0, 0.75)
 
 var free_cell = 0
 
-var _rng := RandomNumberGenerator.new()
 var _used_cell_indexes := []
 
-### Built in Engine Methods -----------------------------------------------------------------------
+#- Built in Engine Methods -----------------------------------------------------------------------
 
 func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
 
-### -----------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------
 
 
-### Private Methods -------------------------------------------------------------------------------
+#- Private Methods -------------------------------------------------------------------------------
 
 # Parent GameWorld script connects here.
 func _on_game_world_generation_finished():
-	var setting_generation_seed = GameManager.game.local_settings.get_setting("World Seed")
-	if setting_generation_seed is int:
-		_rng.seed = setting_generation_seed
-	
 	var data := owner.world_data as WorldData
 	_spawn_initial_settings_items(data)
 	_spawn_world_data_objects(data)
@@ -108,4 +103,4 @@ func _spawn_tiny_item(item_data_path: String, amount: int, position: Vector3) ->
 	item.position = position
 	owner.add_child(item)
 
-### -----------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------

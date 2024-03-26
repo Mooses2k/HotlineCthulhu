@@ -1,6 +1,6 @@
 extends GenerationStep
 
-### Member Variables and Dependencies -------------------------------------------------------------
+#- Member Variables and Dependencies -------------------------------------------------------------
 #--- signals --------------------------------------------------------------------------------------
 
 #--- enums ----------------------------------------------------------------------------------------
@@ -48,10 +48,10 @@ const MASK_FULL_ROOM = 0b1111
 
 @onready var _room_graph_viz := get_node_or_null(_path_graph_viz) as RoomGraphViz
 
-### -----------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------
 
 
-### GenerationStep Virtual Overrides --------------------------------------------------------------------
+#- GenerationStep Virtual Overrides --------------------------------------------------------------------
 
 func _execute_step(data : WorldData, gen_data : Dictionary, _generation_seed : int):
 	var graph = gen_data.get(GraphGenerator.CONNECTION_GRAPH_KEY, Dictionary()) as Dictionary
@@ -80,10 +80,10 @@ func _execute_step(data : WorldData, gen_data : Dictionary, _generation_seed : i
 	if is_instance_valid(_room_graph_viz):
 		_room_graph_viz.astar = astar
 
-### -----------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------
 
 
-### Public Methods --------------------------------------------------------------------------------
+#- Public Methods --------------------------------------------------------------------------------
 
 func generate_double_a_star_grid(data : WorldData) -> AStar2D:
 	var astar = ManhattanAStar2D.new()
@@ -124,10 +124,10 @@ func generate_double_corridor(
 			if results.status == CorridorGenerationResults.GOAL:
 				is_generating = false
 
-### -----------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------
 
 
-### Private Methods -------------------------------------------------------------------------------
+#- Private Methods -------------------------------------------------------------------------------
 
 func _add_weighted_points_to_astar_grid(data: WorldData, astar: AStar2D) -> void:
 	for x in range(1, data.world_size_x - 1):
@@ -327,9 +327,9 @@ func _disconnect_room_walls_from_grid(data: WorldData, astar: AStar2D, room: Roo
 				if astar.are_points_connected(cell_index, neighbour_index):
 					astar.disconnect_points(cell_index, neighbour_index)
 
-### -----------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------
 
 
-### Signal Callbacks ------------------------------------------------------------------------------
+#- Signal Callbacks ------------------------------------------------------------------------------
 
-### -----------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------

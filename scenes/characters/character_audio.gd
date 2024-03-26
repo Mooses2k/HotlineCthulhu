@@ -190,7 +190,7 @@ func load_sounds(sound_dir, type : int) -> void:
 		sound = snd_dir.get_next()
 
 
-### Speech
+#- Speech
 
 # Once per character, randomly choose an appropriate voice for this character
 func choose_voice():
