@@ -522,11 +522,11 @@ func set_cell_type(cell_index : int, value : int):
 # Takes a CellType as parameter, and returns an array with all cell indexes for that CellType.
 # The returned Array is already sorted and a duplicate, so that modifications to it don't affect
 # the original Array.
-func get_cells_for(p_type: int) -> Array:
-	var value := []
+func get_cells_for(p_type: int) -> Array[int]:
+	var value: Array[int] = []
 	
 	if _cell_indexes_by_cell_type.has(p_type):
-		value = _cell_indexes_by_cell_type[p_type].duplicate()
+		value.append_array(_cell_indexes_by_cell_type[p_type])
 		value.sort()
 	
 	return value
@@ -550,6 +550,24 @@ func is_cell_free(cell_index: int) -> bool:
 			value = false
 		elif _characters_to_spawn.has(cell_index):
 			value = false
+	
+	return value
+
+
+## Takes and array of indexes and returns a copy of it, but removing any occupied cell
+func remove_used_cells_from(p_array :Array[int]) -> Array[int]:
+	var value: Array[int] = p_array.duplicate()
+	
+	for cell_index in _objects_to_spawn.keys():
+		value.erase(cell_index)
+	
+	if is_spawn_position_valid():
+		var player_cells := [
+				get_player_spawn_position_as_index(RoomData.OriginalPurpose.UP_STAIRCASE),
+				get_player_spawn_position_as_index(RoomData.OriginalPurpose.DOWN_STAIRCASE),
+		]
+		for player_cell in player_cells:
+			value.erase(player_cell)
 	
 	return value
 

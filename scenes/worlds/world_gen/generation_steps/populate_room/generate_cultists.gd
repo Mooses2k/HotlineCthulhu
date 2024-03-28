@@ -82,29 +82,13 @@ func _execute_step(data : WorldData, gen_data : Dictionary, generation_seed : in
 
 
 func _get_valid_cells(data: WorldData) -> Array:
-	var valid_cells := []
+	var valid_cells: Array[int] = []
 	for type in _density_by_type.keys():
 		valid_cells.append_array(data.get_cells_for(type))
 	valid_cells.sort()
 	
-	_remove_used_cells_from(valid_cells, data)
+	valid_cells = data.remove_used_cells_from(valid_cells)
 	return valid_cells
-
-
-
-func _remove_used_cells_from(p_array: Array, data: WorldData) -> Array:
-	for cell_index in data._objects_to_spawn.keys():
-		p_array.erase(cell_index)
-	
-	if data.is_spawn_position_valid():
-		var player_cells := [
-				data.get_player_spawn_position_as_index(RoomData.OriginalPurpose.UP_STAIRCASE),
-				data.get_player_spawn_position_as_index(RoomData.OriginalPurpose.DOWN_STAIRCASE),
-		]
-		for player_cell in player_cells:
-			p_array.erase(player_cell)
-	
-	return p_array
 
 #--------------------------------------------------------------------------------------------------
 

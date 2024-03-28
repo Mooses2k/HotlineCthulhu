@@ -57,7 +57,7 @@ func _generate_initial_loot_spawn_data(data: WorldData, loot_list: ObjectSpawnLi
 	var draw_amount := _rng.randi_range(_min_loot, (_max_loot * -GameManager.game.current_floor_level))
 	print("Spawning this many non-bone items on ground: ", draw_amount)
 	var possible_cells := data.get_cells_for(data.CellType.ROOM)
-	possible_cells = _remove_used_cells_from(possible_cells, data)
+	possible_cells = data.remove_used_cells_from(possible_cells)
 	
 	for _i in draw_amount:
 		var spawn_data := loot_list.get_random_spawn_data(_rng)
@@ -81,21 +81,6 @@ func _generate_initial_loot_spawn_data(data: WorldData, loot_list: ObjectSpawnLi
 		)
 		
 		data.set_object_spawn_data_to_cell(cell_index, spawn_data)
-
-
-func _remove_used_cells_from(p_array: Array, data: WorldData) -> Array:
-	for cell_index in data._objects_to_spawn.keys():
-		p_array.erase(cell_index)
-	
-	if data.is_spawn_position_valid():
-		var player_cells := [
-				data.get_player_spawn_position_as_index(RoomData.OriginalPurpose.UP_STAIRCASE),
-				data.get_player_spawn_position_as_index(RoomData.OriginalPurpose.DOWN_STAIRCASE),
-		]
-		for player_cell in player_cells:
-			p_array.erase(player_cell)
-	
-	return p_array
 
 
 func _set_min_loot(value: int) -> void:
