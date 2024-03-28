@@ -37,6 +37,9 @@ func _spawn_world_data_objects(data: WorldData) -> void:
 	var objects_to_spawn := data.get_objects_to_spawn()
 	for cell_index in objects_to_spawn:
 		var spawn_data := objects_to_spawn[cell_index] as SpawnData
+		if spawn_data.scene_path.is_empty():
+			continue
+		
 		spawn_data.spawn_in(owner)
 
 

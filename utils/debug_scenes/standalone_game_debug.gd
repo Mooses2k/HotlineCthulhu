@@ -27,6 +27,7 @@ var _is_debug_label_visible := true
 #- Built-in Virtual Overrides --------------------------------------------------------------------
 
 func _ready() -> void:
+	super()
 	if get_tree().current_scene == self:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		# warning-ignore:return_value_discarded
@@ -49,8 +50,8 @@ func _ready() -> void:
 #- Public Methods --------------------------------------------------------------------------------
 
 func spawn_player():
-	super.spawn_player()
-	Events.call_deferred("emit_signal", "debug_filter_forced", _screen_filter)
+	await super.spawn_player()
+	Events.debug_filter_forced.emit(_screen_filter)
 
 #--------------------------------------------------------------------------------------------------
 
@@ -60,7 +61,7 @@ func spawn_player():
 func _toggle_debug_labels() -> void:
 	var event := InputEventAction.new()
 	event.action = "misc|help_info"
-	event.button_pressed = true
+	event.pressed = true
 	Input.parse_input_event(event)
 	_is_debug_label_visible = not _is_debug_label_visible
 
