@@ -79,6 +79,8 @@ func _execute_step(data : WorldData, gen_data : Dictionary, _generation_seed : i
 	
 	if is_instance_valid(_room_graph_viz):
 		_room_graph_viz.astar = astar
+	
+	gen_data[KEY_ASTAR] = astar
 
 #--------------------------------------------------------------------------------------------------
 
