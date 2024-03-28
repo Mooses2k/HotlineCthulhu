@@ -32,7 +32,8 @@ func _to_string() -> String:
 
 #- Public Methods --------------------------------------------------------------------------------
 
-func spawn_character_in(node: Node, should_log := false) -> Node3D:
+## Spawns a character scene as a child of `node`and returns it.
+func spawn_in(node: Node, should_log := false) -> Node3D:
 	var character = load(scene_path).instantiate() as Node3D
 	if character == null:
 		push_error("scene_path is not a Node3D: %s"%[scene_path])

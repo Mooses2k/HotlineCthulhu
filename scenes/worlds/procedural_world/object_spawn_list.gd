@@ -17,8 +17,8 @@ var _current_total_weight := 0
 
 #- Public Methods --------------------------------------------------------------------------------
 
-func get_random_spawn_data(rng: RandomNumberGenerator) -> SpawnData:
-	var spawn_data: SpawnData = SpawnData.new()
+func get_random_spawn_data(rng: RandomNumberGenerator) -> ItemSpawnData:
+	var spawn_data: ItemSpawnData = ItemSpawnData.new()
 	
 	if _current_paths.is_empty():
 		_initialize_current_arrays()

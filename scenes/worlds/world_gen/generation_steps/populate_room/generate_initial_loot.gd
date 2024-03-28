@@ -61,6 +61,8 @@ func _generate_initial_loot_spawn_data(data: WorldData, loot_list: ObjectSpawnLi
 	
 	for _i in draw_amount:
 		var spawn_data := loot_list.get_random_spawn_data(_rng)
+		if spawn_data.scene_path.is_empty():
+			continue
 		
 		if possible_cells.is_empty():
 			return

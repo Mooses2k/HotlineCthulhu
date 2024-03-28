@@ -205,7 +205,7 @@ func _set_sarco_spawn_data(
 		sarco_offset := Vector3.ZERO,
 		sarco_rotation := 0.0
 ) -> void:
-	var spawn_data := SpawnData.new()
+	var spawn_data := ItemSpawnData.new()
 	spawn_data.scene_path = sarco_scene_path
 	
 	var spawn_position = (

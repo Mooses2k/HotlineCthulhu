@@ -10,7 +10,8 @@ extends Resource
 
 #--- constants ------------------------------------------------------------------------------------
 
-const ITEM_CENTER_POSITION_OFFSET = Vector3(0.75, 1.0, 0.75)
+const ERROR_MULTIPLE_INSTANCES = "Setting the same position for multiple item instances"
+const ERROR_VIRTUAL_FUNCTION = "This is a virtual function and should be overriden by a child class"
 
 #--- public variables - order: export > normal var > onready --------------------------------------
 
@@ -23,8 +24,6 @@ const ITEM_CENTER_POSITION_OFFSET = Vector3(0.75, 1.0, 0.75)
 
 # Array of Dictionary of properties to be applied to the spawned node, after spawn.
 @export var _custom_properties: Array
-
-var _has_spawned := false
 
 #--------------------------------------------------------------------------------------------------
 
@@ -46,41 +45,16 @@ func _to_string() -> String:
 
 #- Public Methods --------------------------------------------------------------------------------
 
-func spawn_item_in(node: Node, should_log := false) -> void:
-	if _has_spawned:
-		return
-		
-	var item_scene : PackedScene = load(scene_path)
-	for index in amount:
-		# handle bad refs in the loot list
-		if !is_instance_valid(item_scene):
-			return
-		var item = item_scene.instantiate()
-		
-		if item is Node3D:
-			item.transform = _transforms[index]
-		
-		var custom_properties := _custom_properties[index] as Dictionary
-		for key in custom_properties:
-			item.set(key, custom_properties[key])
-		
-		node.add_child(item, true)
-		
-		# Having this here instead of ready() function of light fixes blueprint SHOULD_PLACE candle emissive material bug
-		if item is CandleItem or item is CandelabraItem:
-			item.light()
-		
-		if should_log:
-			print("item spawned: %s | at: %s | rotated by: %s"%[
-					scene_path, _transforms[index].origin, _transforms[index].basis.get_euler()
-			])
-	
-	_has_spawned = true
+## Main virtual function to be overriden by child classes, with their respective spawn logic.
+func spawn_in(_node: Node, _should_log := false) -> Variant:
+	push_error("SpawnData `spaw_in` called directly. %s"%[ERROR_VIRTUAL_FUNCTION])
+	return null
 
 
+## Sets the instance at instance_index to the center of cell_position.
 func set_center_position_in_cell(cell_position: Vector3, instance_index := INF) -> void:
 	if amount > 1 and instance_index == INF:
-		push_warning("Setting the same position for multiple item instances")
+		push_warning("%s"%[ERROR_MULTIPLE_INSTANCES])
 	
 	for i in amount:
 		if instance_index != INF and i != instance_index:
@@ -90,8 +64,8 @@ func set_center_position_in_cell(cell_position: Vector3, instance_index := INF) 
 		_transforms[i] = transform
 
 
-# This calculates the center position of the cell and then tries to find a random position 
-# around it, inside a range from min_radius to max_radius away from center
+## This calculates the center position of the cell and then tries to find a random position 
+## around it, inside a range from min_radius to max_radius away from center
 func set_random_position_in_cell(
 		rng: RandomNumberGenerator,
 		cell_position: Vector3, 
@@ -101,7 +75,7 @@ func set_random_position_in_cell(
 		instance_index := INF
 ) -> void:
 	if p_angle != INF and instance_index == INF:
-		push_warning("Setting the same position for multiple item instances")
+		push_warning("%s"%[ERROR_MULTIPLE_INSTANCES])
 	
 	for i in amount:
 		if instance_index != INF and i != instance_index:
@@ -123,6 +97,7 @@ func set_random_position_in_cell(
 		_transforms[i] = transform
 
 
+## Rotates the instance at instance_index by a random amount in each axis
 func set_random_rotation_in_all_axis(
 		rng: RandomNumberGenerator, 
 		limit_x:= TAU, 
@@ -145,6 +120,7 @@ func set_random_rotation_in_all_axis(
 		_transforms[i] = transform
 
 
+## Sets the y axis rotation of instance at instance_index.
 func set_y_rotation(angle_rad: float, instance_index := INF) -> void:
 	for i in amount:
 		if instance_index != INF and i != instance_index:
@@ -155,6 +131,7 @@ func set_y_rotation(angle_rad: float, instance_index := INF) -> void:
 		_transforms[i] = transform
 
 
+## Sets the position of instance at instance_index.
 func set_position_in_cell(cell_position: Vector3, instance_index := INF) -> void:
 	for i in amount:
 		if instance_index != INF and i != instance_index:
@@ -193,7 +170,7 @@ func _set_amount(value: int) -> void:
 
 
 func _get_center_offset() -> Vector3:
-	return ITEM_CENTER_POSITION_OFFSET
+	return Vector3.ZERO
 
 #--------------------------------------------------------------------------------------------------
 

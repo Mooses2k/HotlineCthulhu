@@ -39,7 +39,7 @@ func _execute_step(data : WorldData, gen_data : Dictionary, generation_seed : in
 
 
 func _populate_staircase(room: RoomData, world_data: WorldData) -> void:
-	var spawn_data := SpawnData.new()
+	var spawn_data := ItemSpawnData.new()
 	if room.type == room.OriginalPurpose.UP_STAIRCASE:
 		spawn_data.scene_path = PATH_UP_STAIRCASE
 	elif room.type == room.OriginalPurpose.DOWN_STAIRCASE:
