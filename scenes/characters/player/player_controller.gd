@@ -162,7 +162,7 @@ func _ready():
 #	_screen_filter.visible = false
 	
 	if OS.has_feature("editor"):
-		Events.connect_to("debug_filter_forced", self, "_set_screen_filter_to")
+		Events.debug_filter_forced.connect(_set_screen_filter_to)
 
 
 func _physics_process(delta : float):
