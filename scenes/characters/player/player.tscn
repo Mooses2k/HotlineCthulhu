@@ -593,11 +593,13 @@ _gun_camera = NodePath("../../FPSCamera/SubViewportContainer/SubViewport/GunCam"
 _cam_path = NodePath("../../FPSCamera")
 
 [node name="GrabInitial" type="MeshInstance3D" parent="PlayerController" index="1"]
+visible = false
 cast_shadow = 0
 mesh = SubResource("19")
 surface_material_override/0 = SubResource("20")
 
 [node name="GrabCurrent" type="MeshInstance3D" parent="PlayerController" index="2"]
+visible = false
 cast_shadow = 0
 mesh = SubResource("19")
 surface_material_override/0 = SubResource("21")
@@ -827,9 +829,6 @@ script = ExtResource("28")
 
 [node name="AnimationTree" parent="." index="25"]
 root_node = NodePath("%MainCharOnlyArmsGameRig")
-libraries = {
-"": SubResource("AnimationLibrary_1g5ph")
-}
 tree_root = SubResource("365")
 anim_player = NodePath("../PlayerAnimationPlayer")
 parameters/Hand_Transition/current_state = "Hand_Combinations"

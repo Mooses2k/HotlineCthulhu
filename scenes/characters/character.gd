@@ -282,8 +282,8 @@ func _physics_process(delta : float):
 
 
 func kick():
-	prints("Kick timer stopped:", kick_timer.is_stopped())
-	prints("legcast colliding:", legcast.is_colliding())
+	#prints("Kick timer stopped:", kick_timer.is_stopped())
+	#prints("legcast colliding:", legcast.is_colliding())
 	if kick_timer.is_stopped() and legcast.is_colliding() and stamina > 50:
 		var kick_object = legcast.get_collider()
 		if is_instance_valid(_camera):

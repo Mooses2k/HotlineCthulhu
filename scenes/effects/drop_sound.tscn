@@ -2,7 +2,9 @@
 
 [ext_resource type="Script" path="res://scenes/effects/drop_sound_controller.gd" id="1_3kmy6"]
 
-[node name="Node3D" type="AudioStreamPlayer3D"]
+[node name="DropSound" type="AudioStreamPlayer3D"]
+autoplay = true
+bus = &"Effects"
 script = ExtResource("1_3kmy6")
 
 [connection signal="finished" from="." to="." method="_on_Spatial_finished"]

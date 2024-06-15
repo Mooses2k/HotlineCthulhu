@@ -99,6 +99,7 @@ func play_throw_sound():
 
 func play_drop_sound(body):
 	if (!LoadScene.loading and can_play_sound):   # If it's at least a few seconds after level load
+		#TODO: bug here probably same as for large object drop sound where soundplayer is never ready
 		if self.item_drop_sound and self.audio_player and self.linear_velocity.length() > 0.2 and self.is_soundplayer_ready:
 			self.audio_player.stream = self.item_drop_sound
 			

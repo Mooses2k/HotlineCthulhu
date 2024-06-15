@@ -14,7 +14,7 @@ var is_player_moving : bool = false
 const ON_GRAB_MAX_SPEED : float = 0.1
 
 @export var hold_time_to_grab : float = 0.4
-@export var grab_strength : float = 100.0
+@export var grab_strength : float = 40.0
 
 #export var grab_spring_distance : float = 0.1
 #export var grab_damping : float = 0.2
@@ -404,7 +404,7 @@ func handle_grab(delta : float):
 		# Slows down camera turn sensitivity to simulate moving something heavy
 		camera_movement_resistance = min(5 / grab_object.mass, 1)   # Camera goes nuts if you don't do this
 		
-		if $GrabInitial.global_transform.origin.distance_to($GrabCurrent.global_transform.origin) >= 0.5:
+		if $GrabInitial.global_transform.origin.distance_to(owner.global_transform.origin) >= 1.5:
 			is_grabbing = false
 			print("Grab broken by distance")
 			if grab_object is PickableItem:   # So not for plain RigidBodies or otherwise large objects

@@ -29,10 +29,11 @@ func _ready():
 
 func _integrate_forces(state):
 	if state.get_contact_count() > 0:
-		if state.get_contact_count() > self.oldCount and state.linear_velocity.length() > 0.7:
+		#prints("get contact_count:", state.get_contact_count(), "and lid linear velo: ", state.linear_velocity.length())
+		if state.get_contact_count() > self.old_contact_count and state.linear_velocity.length() > 0.7:
 			super.play_drop_sound(state.linear_velocity.length(), true)
 		
-	self.oldCount = state.get_contact_count()
+	self.old_contact_count = state.get_contact_count()
 	
 	if self.drag_audio_player:
 		if state.linear_velocity.length() > (1 / self.mass):
