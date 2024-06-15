@@ -14,7 +14,7 @@ var is_player_moving : bool = false
 const ON_GRAB_MAX_SPEED : float = 0.1
 
 @export var hold_time_to_grab : float = 0.4
-@export var grab_strength : float = 1000.0
+@export var grab_strength : float = 100.0
 
 #export var grab_spring_distance : float = 0.1
 #export var grab_damping : float = 0.2
@@ -266,8 +266,10 @@ func _walk(delta) -> void:
 	character.state.move_direction = move_dir.normalized()
 	
 	# This logic has the player kick if they hit sprint and release it without moving
-	if Input.is_action_pressed("player|sprint"):
+	if Input.is_action_just_pressed("player|sprint"):
 		has_moved_after_pressing_sprint = false
+	
+	if Input.is_action_pressed("player|sprint"):
 		if is_movement_key1_held or is_movement_key2_held or is_movement_key3_held or is_movement_key4_held:
 			has_moved_after_pressing_sprint = true
 			owner.do_sprint = true
@@ -377,10 +379,6 @@ func handle_grab(delta : float):
 					grab_object.set_item_state(GlobalConsts.ItemState.DAMAGING)   # This is so any pickable_item collides with cultists
 					grab_object.check_item_state()
 	
-	# These are debug indicators for initial and current grab points
-	$GrabInitial.visible = false
-	$GrabCurrent.visible = false
-	
 	if is_grabbing:
 		var direct_state : PhysicsDirectBodyState3D = PhysicsServer3D.body_get_direct_state(grab_object.get_rid())
 #		print("mass : ", direct_state.inverse_mass)
@@ -406,11 +404,12 @@ func handle_grab(delta : float):
 		# Slows down camera turn sensitivity to simulate moving something heavy
 		camera_movement_resistance = min(5 / grab_object.mass, 1)   # Camera goes nuts if you don't do this
 		
-		if $GrabInitial.global_transform.origin.distance_to($GrabCurrent.global_transform.origin) >= 0.3 and !grab_object is PickableItem:
+		if $GrabInitial.global_transform.origin.distance_to($GrabCurrent.global_transform.origin) >= 0.5:
 			is_grabbing = false
 			print("Grab broken by distance")
 			if grab_object is PickableItem:   # So not for plain RigidBodies or otherwise large objects
 				grab_object.set_item_state(GlobalConsts.ItemState.DROPPED)
+			last_interaction_target = null
 			interaction_handled = true
 			camera_movement_resistance = 1.0
 		
@@ -443,8 +442,8 @@ func handle_grab(delta : float):
 		
 		# Modify player's movement based on additional force
 			if owner.is_player_moving:
-				owner.velocity.x = additional_force.x * delta
-				owner.velocity.z = additional_force.z * delta
+				owner.velocity.x = additional_force.x * delta / 2
+				owner.velocity.z = additional_force.z * delta / 2
 		
 		# Limits the angular velocity to prevent some issues
 		direct_state.angular_velocity = direct_state.angular_velocity.normalized() * min(direct_state.angular_velocity.length(), 4.0)

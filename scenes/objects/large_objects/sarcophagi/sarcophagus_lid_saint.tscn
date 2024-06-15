@@ -7,7 +7,6 @@
 [ext_resource type="Script" path="res://scenes/objects/large_objects/placement_anchor.gd" id="5"]
 [ext_resource type="PackedScene" uid="uid://cykkk7776h00v" path="res://scenes/objects/large_objects/large_object_item_spawn.tscn" id="6"]
 
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_es52y"]
 size = Vector3(2.199, 0.166, 1.004)
 
@@ -38,7 +37,7 @@ radius = 0.056
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.134346, 0)
 collision_layer = 513
 collision_mask = 65
-mass = 95.0
+mass = 80.0
 continuous_cd = true
 max_contacts_reported = 4
 contact_monitor = true

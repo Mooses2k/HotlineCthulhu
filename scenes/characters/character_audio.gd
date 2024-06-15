@@ -225,7 +225,7 @@ func choose_voice():
 
 
 func pitch_alter_voice():
-	speech_audio.set_pitch_scale(randf_range(0.7, 1.1))
+	speech_audio.set_pitch_scale(randf_range(0.8, 1.1))
 
 
 func play_idle_sound():

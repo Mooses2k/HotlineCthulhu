@@ -35,7 +35,7 @@ func _integrate_forces(state):
 	self.oldCount = state.get_contact_count()
 	
 	if self.drag_audio_player:
-		if state.linear_velocity.length() > (7 / self.mass):
+		if state.linear_velocity.length() > (1 / self.mass):
 			sound_vol = state.linear_velocity.length()
 			if sound_vol < 0.1:
 				sound_vol = -(0.1 / sound_vol)

@@ -237,4 +237,3 @@ func item_drop():
 		if random_number < prob_going_out:
 			unlight()
 			print("Light went out due to being thrown")
-			
