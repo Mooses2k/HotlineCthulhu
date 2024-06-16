@@ -405,7 +405,7 @@ func handle_grab(delta : float):
 		# Slows down camera turn sensitivity to simulate moving something heavy
 		camera_movement_resistance = min(5 / grab_object.mass, 1)   # Camera goes nuts if you don't do this
 		
-		if $GrabInitial.global_transform.origin.distance_to(owner.global_transform.origin) >= 1.5:
+		if $GrabInitial.global_transform.origin.distance_to($GrabCurrent.global_transform.origin) >= 1:
 			is_grabbing = false
 			print("Grab broken by distance")
 			if grab_object is PickableItem:   # So not for plain RigidBodies or otherwise large objects

@@ -19,23 +19,24 @@ func _enter_tree():
 func _integrate_forces(state):
 	if !LoadScene.loading:   # If it's at least a few seconds after level load
 		if state.get_contact_count() > 0:
-			print("Linear velocity of ", self, ": ", state.linear_velocity.length())
-			if state.get_contact_count() > old_contact_count and state.linear_velocity.length() > 0.4:
+			if state.get_contact_count() > old_contact_count and state.linear_velocity.length() > 0.7:
 				play_drop_sound(state.linear_velocity.length(), false)
+				print("Linear velocity of ", self, ": ", state.linear_velocity.length())
 		
 	old_contact_count = state.get_contact_count()
 
 
 func play_drop_sound(linear_velo, is_heavy = false):
 	#TODO: there's a bug here where soundplayer is never ready, so the drop sound never plays
+	prints("Is_soundplayer_ready:", is_soundplayer_ready)
 	if self.item_drop_sound and self.is_soundplayer_ready:
 		var drop_audio_player = drop_sound_scene.instantiate()
 		drop_audio_player.stream = self.item_drop_sound
 		drop_audio_player.bus = "Effects"
 	
 		if is_heavy:
-			self.item_drop_sound_level = self.linear_velocity.length() * 10
-			drop_audio_player.volume_db = clamp(self.item_drop_sound_level, 5.0, 50.0)
+			self.item_drop_sound_level = self.linear_velocity.length() # * 10
+			drop_audio_player.volume_db = clamp(self.item_drop_sound_level, 5.0, 20.0)
 		else:
 			self.item_drop_sound_level = linear_velo * 2.0
 			self.item_drop_pitch_level = linear_velo * 0.4
