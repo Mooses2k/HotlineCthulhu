@@ -49,6 +49,7 @@ var throw_item_hand : int = ItemSelection.ITEM_MAINHAND
 var throw_item : EquipmentItem
 var throw_press_length : float = 0.0
 var _placing_blueprint: RigidBody3D = null # A copy of the player's item that he is trying to drop
+var should_place_blueprint_shader : ShaderMaterial = load("res://resources/shaders/blueprints/blueprint.tres")
 
 @export var crouch_rate = 0.08 # (float, 0.05, 1.0)
 @export var crawl_rate = 0.5 # (float, 0.1, 1.0)
@@ -768,6 +769,7 @@ func update_throw_state(throw_item : EquipmentItem, delta : float):
 				throw_impulse_and_damage(grab_object)
 				
 				wanna_grab = false
+				
 	if Input.is_action_just_released("playerhand|mainhand_throw") or Input.is_action_just_released("playerhand|offhand_throw"):
 		wants_to_drop = false
 	
@@ -779,9 +781,17 @@ func update_throw_state(throw_item : EquipmentItem, delta : float):
 		if throw_press_length > hold_time_to_grab:
 			if _placing_blueprint == null:
 				_placing_blueprint = throw_item.duplicate()
-				var _placing_blueprint_mesh: MeshInstance3D = _placing_blueprint.get_node("MeshInstance3D") # TODO: this is not going to be reliable
-				var shader: ShaderMaterial = load("res://resources/shaders/blueprints/blueprint.tres")
-				_placing_blueprint_mesh.set_material_override(shader)
+				#var _placing_blueprint_mesh: MeshInstance3D = _placing_blueprint.get_node("MeshInstance3D") # TODO: this is not going to be reliable
+				# Check all MeshInstances in the item scene until we find the first non-null one, and use that for the blueprint shader
+				var queue : Array[Node] = _placing_blueprint.get_children()
+				while not queue.is_empty():
+					var _placing_blueprint_mesh = queue.pop_front()
+					queue.append_array(_placing_blueprint_mesh.get_children())
+					print(_placing_blueprint_mesh)
+					if _placing_blueprint_mesh is MeshInstance3D:
+						if _placing_blueprint_mesh.mesh:
+							prints("_placing_blueprint_mesh that's not empty:", _placing_blueprint_mesh)
+							_placing_blueprint_mesh.set_material_override(should_place_blueprint_shader)
 			
 			if _placing_blueprint:
 				current_control_mode.aimcast.add_exception(_placing_blueprint)
