@@ -3,19 +3,15 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+	$GammaSlider.value = VideoSettings.get_brightness()
 
 
 func _on_gamma_slider_value_changed(value):
-	VideoSettings.brightness = value
+	VideoSettings.set_brightness(value)
+	$WorldEnvironmentTest.environment.tonemap_exposure = value
 
 
 func _on_button_pressed():
-	# TODO: save setting
+	GameManager.is_first_run = false # TODO: Save this setting
 	visible = false
 
