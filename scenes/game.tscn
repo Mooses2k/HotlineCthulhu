@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://globals/settings.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://bg7aeaviu8ftd" path="res://scenes/characters/player/player.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://d1lbexonric4u" path="res://scenes/worlds/procedural_world/procedural_world.tscn" id="4"]
-[ext_resource type="PackedScene" uid="uid://ojhqun7ijups" path="res://scenes/ui/game_ui.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://scenes/ui/game_ui.tscn" id="5"]
 [ext_resource type="Environment" uid="uid://bxgnfe0qgcrm" path="res://scenes/worlds/game_environment.tres" id="6"]
 [ext_resource type="PackedScene" uid="uid://d0h4ce7jlo0b0" path="res://scenes/ui/loadscreen/load_screen.tscn" id="7_4hehu"]
 

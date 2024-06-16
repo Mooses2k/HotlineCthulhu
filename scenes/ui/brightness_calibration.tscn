@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://57tosshxfyhs"]
+[gd_scene load_steps=5 format=3 uid="uid://57tosshxfyhs"]
 
 [ext_resource type="Texture2D" uid="uid://j1ca5ri6b8hr" path="res://resources/art/brightness_screen.png" id="1_ekd7g"]
 [ext_resource type="Script" path="res://scenes/ui/brightness_calibration.gd" id="1_kssqj"]
 [ext_resource type="Theme" uid="uid://d1bhwd8v505pu" path="res://resources/ui_themes/main_menu.tres" id="3_a6cwf"]
+[ext_resource type="Environment" uid="uid://bxgnfe0qgcrm" path="res://scenes/worlds/game_environment.tres" id="4_wwo82"]
 
 [node name="BrightnessCalibration" type="Control"]
 layout_mode = 3
@@ -31,7 +32,10 @@ anchor_left = 0.25
 anchor_top = 0.86
 anchor_right = 0.75
 anchor_bottom = 0.9
-min_value = -100.0
+min_value = 0.05
+max_value = 5.0
+step = 0.05
+value = 1.0
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 1
@@ -48,6 +52,9 @@ grow_horizontal = 2
 grow_vertical = 0
 theme = ExtResource("3_a6cwf")
 text = "DONE"
+
+[node name="WorldEnvironmentTest" type="WorldEnvironment" parent="."]
+environment = ExtResource("4_wwo82")
 
 [connection signal="value_changed" from="GammaSlider" to="." method="_on_gamma_slider_value_changed"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
