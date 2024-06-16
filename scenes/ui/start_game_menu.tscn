@@ -87,6 +87,7 @@ visible = false
 layout_mode = 2
 
 [node name="BrightnessCalibration" parent="." instance=ExtResource("6_qyqw8")]
+layout_mode = 2
 
 [node name="Timer" type="Timer" parent="."]
 

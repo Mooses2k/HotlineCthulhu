@@ -1,7 +1,8 @@
 [gd_resource type="Environment" format=3 uid="uid://bxgnfe0qgcrm"]
 
 [resource]
-background_mode = 1
+background_mode = 3
+background_canvas_max_layer = 1
 ambient_light_sky_contribution = 0.0
 ambient_light_energy = 0.0
 tonemap_mode = 3
