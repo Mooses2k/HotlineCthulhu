@@ -274,8 +274,9 @@ func on_setting_changed(setting_name, old_value, new_value):
 			SettingsConfig.save_settings()
 		SETTING_BRIGHTNESS:
 			if is_instance_valid(GameManager.game):   # If the game is loaded, change immediately
-				GameManager.game.set_brightness()
-			#brightness = new_value
+				print("setting brightness in video_settings.gd")
+				GameManager.game.set_brightness(new_value)
+			brightness = new_value
 			emit_signal("brightness_changed", new_value)
 			SettingsConfig.save_settings()
 		SETTING_GUI_SCALE:
