@@ -55,7 +55,7 @@ func _init():
 
 
 func _ready():
-	set_brightness()
+	set_brightness(VideoSettings.brightness)
 	load_screen.show_message()
 	for floor_index in range(HIGHEST_FLOOR_LEVEL, LOWEST_FLOOR_LEVEL - 1, -1):
 		_loaded_levels[floor_index] = null
@@ -79,9 +79,11 @@ func _input(event):
 
 ### Public Methods --------------------------------------------------------------------------------
 
-func set_brightness():
+func set_brightness(value):
 	# Set game brightness/gamma
-	world_environment.environment.tonemap_exposure = VideoSettings.brightness
+	print("set_brightness() reached in game.gd")
+	world_environment.environment.tonemap_exposure = value
+	prints("Tonemap_exposure =", world_environment.environment.tonemap_exposure)
 
 
 func load_level(packed : PackedScene):
