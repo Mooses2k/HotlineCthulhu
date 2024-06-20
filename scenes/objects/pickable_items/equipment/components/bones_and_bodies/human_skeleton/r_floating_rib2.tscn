@@ -1,12 +1,13 @@
-[gd_scene load_steps=13 format=3 uid="uid://baporbdcbrmjc"]
+[gd_scene load_steps=14 format=3 uid="uid://baporbdcbrmjc"]
 
 [ext_resource type="Script" path="res://scenes/characters/hitbox.gd" id="2"]
+[ext_resource type="Resource" uid="uid://cbmn8q44m5tly" path="res://resources/inventory/stackables/bones_stack.tres" id="2_ih0yu"]
 [ext_resource type="AudioStream" uid="uid://bfhflhuea8p8f" path="res://resources/sounds/throwing/346373__denao270__throwing-whip-effect.wav" id="3"]
 [ext_resource type="AudioStream" uid="uid://bxfvr86h2sc7o" path="res://resources/sounds/impacts/bone/69396__angel_perez_grandi__bone-click.wav" id="4"]
 [ext_resource type="Texture2D" uid="uid://1smfh3npjal5" path="res://resources/models/items/components/bones_and_bodies/human_skeleton/human_skeleton_Skeleton_baseColor.png" id="4_jkn3s"]
 [ext_resource type="Texture2D" uid="uid://61o0r4p3rcse" path="res://resources/models/items/components/bones_and_bodies/human_skeleton/human_skeleton_Skeleton_metallicRoughness.png" id="5_x3yv1"]
 [ext_resource type="Texture2D" uid="uid://c4wavgkchkdt5" path="res://resources/models/items/components/bones_and_bodies/human_skeleton/human_skeleton_Skeleton_normal.png" id="6_blfwc"]
-[ext_resource type="PackedScene" path="res://scenes/objects/pickable_items/equipment/_equipment_item.tscn" id="9"]
+[ext_resource type="PackedScene" uid="uid://ckkrq7mwcamt0" path="res://scenes/objects/pickable_items/equipment/_equipment_item.tscn" id="9"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5oovw"]
 resource_name = "Skeleton"
@@ -64,6 +65,7 @@ radius = 0.101082
 [node name="RFloatingRib2" instance=ExtResource("9")]
 item_size = 0
 item_name = "Rib"
+stackable_resource = ExtResource("2_ih0yu")
 item_drop_sound = ExtResource("4")
 item_throw_sound = ExtResource("3")
 

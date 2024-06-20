@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://dek0ixbl37sw7"]
+[gd_scene load_steps=12 format=3 uid="uid://dek0ixbl37sw7"]
 
 [ext_resource type="PackedScene" path="res://scenes/objects/pickable_items/equipment/consumable/medical/_medical_item.tscn" id="1"]
 [ext_resource type="Texture2D" uid="uid://crgd10t7vl715" path="res://resources/models/items/consumables/medical/bandage/bandage_roll_T_MedicalBandage_BaseColor.png" id="2_au1c6"]
+[ext_resource type="Resource" uid="uid://cwsxm7f8jreyb" path="res://resources/inventory/stackables/bandages_stack.tres" id="2_jjvsd"]
 [ext_resource type="Script" path="res://scenes/effects/mesh_instances.gd" id="3"]
 [ext_resource type="Texture2D" uid="uid://njk3sx7v68t5" path="res://resources/models/items/consumables/medical/bandage/bandage_roll_T_MedicalBandage_Roughness.png" id="3_j4skd"]
 [ext_resource type="AudioStream" uid="uid://chh2wsc7cblfv" path="res://resources/sounds/fabric/678008__mandy2__fabric-rubbing.mp3" id="4"]
@@ -77,6 +78,7 @@ size = Vector3(0.058, 0.05, 0.05)
 
 [node name="Bandage" instance=ExtResource("1")]
 item_name = "Bandage"
+stackable_resource = ExtResource("2_jjvsd")
 item_drop_sound = null
 item_throw_sound = null
 

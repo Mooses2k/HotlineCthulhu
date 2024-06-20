@@ -6,4 +6,4 @@
 resource_local_to_scene = true
 script = ExtResource("1_otnc0")
 stack_name = "Bones"
-max_stack = 2
+max_stack = 3

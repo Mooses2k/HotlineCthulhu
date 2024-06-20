@@ -1,7 +1,8 @@
-[gd_scene load_steps=28 format=3 uid="uid://baim2jxfs75kg"]
+[gd_scene load_steps=29 format=3 uid="uid://baim2jxfs75kg"]
 
 [ext_resource type="Script" path="res://scenes/objects/pickable_items/equipment/consumable/bomb/dynamite/dynamite.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://dihle2hwbplxu" path="res://scenes/objects/pickable_items/equipment/consumable/bomb/_bomb.tscn" id="2"]
+[ext_resource type="Resource" uid="uid://cb7cxr74bb6a7" path="res://resources/inventory/stackables/dynamite_stack.tres" id="3_87f0d"]
 [ext_resource type="Shader" uid="uid://bmq4tysjb7cyu" path="res://scenes/effects/explosion/smokeshader.tres" id="4"]
 [ext_resource type="Texture2D" uid="uid://dp88ims2ftxiw" path="res://resources/models/items/consumables/bombs/dynamite/SM_Dynamite_T_DynamiteDiffuse.png" id="4_1f2vb"]
 [ext_resource type="Material" uid="uid://67a0nyjvrode" path="res://scenes/effects/explosion/material.tres" id="5"]
@@ -119,6 +120,7 @@ material = SubResource("16")
 script = ExtResource("1")
 bomb_damage = 110.0
 item_name = "Dynamite"
+stackable_resource = ExtResource("3_87f0d")
 item_drop_sound = ExtResource("9")
 
 [node name="MeshInstance3D" parent="." index="0"]

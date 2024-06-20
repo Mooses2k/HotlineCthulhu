@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://jcvxs0m7sel2"]
+[gd_scene load_steps=14 format=3 uid="uid://jcvxs0m7sel2"]
 
 [ext_resource type="AudioStream" uid="uid://ct3crbxdeurn6" path="res://resources/sounds/impacts/metal_and_gun/412295__jaklocke__gun-hitting-ground.mp3" id="1"]
+[ext_resource type="Resource" uid="uid://ds6piiasuymhf" path="res://resources/inventory/stackables/daggers_stack.tres" id="2_ayteg"]
 [ext_resource type="Texture2D" uid="uid://chinds7eqrl4r" path="res://resources/models/items/melee/dagger/Dagger_T_Dagger_Diffuse.png" id="3_rn0y5"]
 [ext_resource type="Texture2D" uid="uid://cgiiydynahkw" path="res://resources/models/items/melee/dagger/Dagger_T_Dagger_Metallic-T_Dagger_Roughness.png" id="4_0c714"]
 [ext_resource type="Texture2D" uid="uid://u3oh0vne8wxu" path="res://resources/models/items/melee/dagger/Dagger_T_Dagger_Normal.png" id="5_lw12x"]
@@ -72,8 +73,8 @@ secondary_damage1 = 19
 melee_attack_speed = 2.0
 item_size = 0
 item_name = "Dagger"
-normal_pos_path = NodePath("NormalPosition")
 throw_pos_path = NodePath("ThrowPosition")
+stackable_resource = ExtResource("2_ayteg")
 item_drop_sound = ExtResource("1")
 can_spin = true
 

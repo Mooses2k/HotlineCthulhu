@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://r5mu0nojas4l"]
+[gd_scene load_steps=14 format=3 uid="uid://r5mu0nojas4l"]
 
 [ext_resource type="PackedScene" uid="uid://ckkrq7mwcamt0" path="res://scenes/objects/pickable_items/equipment/_equipment_item.tscn" id="1_bo2q4"]
+[ext_resource type="Resource" uid="uid://cbrswthxagj2w" path="res://resources/inventory/stackables/bricks_rocks_stack.tres" id="2_m6wo0"]
 [ext_resource type="AudioStream" uid="uid://mnnndx2i46dq" path="res://resources/sounds/impacts/brick/593473__georgesavic__throwing-brick1.ogg" id="2_u25k2"]
 [ext_resource type="AudioStream" uid="uid://bfhflhuea8p8f" path="res://resources/sounds/throwing/346373__denao270__throwing-whip-effect.wav" id="3_aqabf"]
 [ext_resource type="Texture2D" uid="uid://bchn1h75yi5uu" path="res://resources/models/items/components/coal/T_Coal_Albedo.png" id="4_douge"]
@@ -42,6 +43,7 @@ radius = 0.111151
 mass = 1.0
 item_size = 0
 item_name = "Coal"
+stackable_resource = ExtResource("2_m6wo0")
 item_drop_sound = ExtResource("2_u25k2")
 item_throw_sound = ExtResource("3_aqabf")
 

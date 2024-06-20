@@ -1,8 +1,9 @@
-[gd_scene load_steps=23 format=3 uid="uid://c8b20twjhptbk"]
+[gd_scene load_steps=24 format=3 uid="uid://c8b20twjhptbk"]
 
 [ext_resource type="Script" path="res://scenes/sensors/light_detection/player_light_area/player_light_area.gd" id="1"]
 [ext_resource type="Script" path="res://scenes/objects/pickable_items/equipment/consumable/disposable_lights/candle/fire_origin.gd" id="2"]
 [ext_resource type="Script" path="res://scenes/objects/pickable_items/equipment/consumable/disposable_lights/candle/candle.gd" id="3"]
+[ext_resource type="Resource" uid="uid://bg6vsnvwsvfve" path="res://resources/inventory/stackables/candles_stack.tres" id="3_gvs83"]
 [ext_resource type="PackedScene" path="res://scenes/objects/pickable_items/equipment/consumable/disposable_lights/_disposable_light.tscn" id="4"]
 [ext_resource type="Material" uid="uid://cmgswvdlevwyq" path="res://scenes/objects/pickable_items/equipment/consumable/disposable_lights/candle/material/candle.tres" id="4_lnl7h"]
 [ext_resource type="Script" path="res://scenes/objects/pickable_items/equipment/consumable/disposable_lights/candle/flame.gd" id="6"]
@@ -104,10 +105,10 @@ seamless = true
 seamless_blend_skirt = 1.0
 noise = SubResource("FastNoiseLite_v02r8")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_wy5fu"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1w4mj"]
 render_priority = 0
 shader = ExtResource("10_oypmg")
-shader_parameter/noise_seed = 222.564
+shader_parameter/noise_seed = 838.219
 shader_parameter/top_offset = Vector3(0, 0, 0)
 shader_parameter/model_height_range = Vector2(-1, 1)
 shader_parameter/noise_scale = 0.079
@@ -127,6 +128,7 @@ script = ExtResource("3")
 life_percentage_lose = 0.2
 prob_going_out = 0.9
 item_name = "Candle"
+stackable_resource = ExtResource("3_gvs83")
 max_speed = 8.0
 item_drop_sound = ExtResource("10")
 item_throw_sound = null
@@ -161,7 +163,7 @@ script = ExtResource("2")
 visible = false
 cast_shadow = 0
 mesh = SubResource("53")
-surface_material_override/0 = SubResource("ShaderMaterial_wy5fu")
+surface_material_override/0 = SubResource("ShaderMaterial_1w4mj")
 script = ExtResource("6")
 
 [node name="Light3D" type="OmniLight3D" parent="FireOrigin/Fire" index="0"]

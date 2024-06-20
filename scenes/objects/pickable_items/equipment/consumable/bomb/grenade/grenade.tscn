@@ -1,7 +1,8 @@
-[gd_scene load_steps=34 format=3 uid="uid://4rvueox2w0g1"]
+[gd_scene load_steps=35 format=3 uid="uid://4rvueox2w0g1"]
 
 [ext_resource type="Script" path="res://scenes/objects/pickable_items/equipment/consumable/bomb/grenade/grenade.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://b5bwgcp70dhdv" path="res://resources/models/items/consumables/bombs/grenade/Textures/Material_Mixed_AO.png" id="3"]
+[ext_resource type="Resource" uid="uid://daoalsyxlcgcd" path="res://resources/inventory/stackables/grenades_stack.tres" id="3_4qqpi"]
 [ext_resource type="Texture2D" uid="uid://b2r4ujt3pl5v1" path="res://resources/models/items/consumables/bombs/grenade/Textures/Material_Base_color.png" id="4"]
 [ext_resource type="Texture2D" uid="uid://c4v2oa0gtvd3w" path="res://resources/models/items/consumables/bombs/grenade/FrenchGrenade_Untitled.png" id="4_vjq5e"]
 [ext_resource type="Texture2D" uid="uid://cdlupewhmh4c7" path="res://resources/models/items/consumables/bombs/grenade/Textures/Material_Metallic.png" id="5"]
@@ -138,6 +139,7 @@ radius = 10
 bomb_damage = 150.0
 damage_type = 3
 item_name = "Grenade"
+stackable_resource = ExtResource("3_4qqpi")
 item_drop_sound = ExtResource("14")
 
 [node name="MeshInstance3D" parent="." index="0"]
@@ -187,7 +189,7 @@ stream = ExtResource("9")
 volume_db = 5.0
 bus = &"Effects"
 
-[node name="Flash" type="OmniLight3D" parent="." index="9"]
+[node name="Flash2" type="OmniLight3D" parent="." index="9"]
 visible = false
 light_color = Color(0.760784, 0.364706, 0.0470588, 1)
 light_energy = 5.0
@@ -195,14 +197,14 @@ shadow_enabled = true
 omni_range = 10.0
 omni_attenuation = 7.0
 
-[node name="FlashTimer" type="Timer" parent="Flash" index="0"]
-wait_time = 0.05
-one_shot = true
-
 [node name="Effect" type="Node3D" parent="." index="10"]
 script = ExtResource("12")
 sound_effect = ExtResource("13")
 
 [node name="SoundOrigin" type="Marker3D" parent="Effect" index="0"]
+
+[node name="FlashTimer2" type="Timer" parent="Flash" index="0"]
+wait_time = 0.05
+one_shot = true
 
 [connection signal="timeout" from="Countdown" to="." method="_on_Countdown_timeout"]

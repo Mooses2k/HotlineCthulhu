@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://kv6wq1slt01x"]
+[gd_scene load_steps=14 format=3 uid="uid://kv6wq1slt01x"]
 
 [ext_resource type="PackedScene" path="res://scenes/objects/pickable_items/equipment/consumable/medical/_medical_item.tscn" id="1"]
+[ext_resource type="Resource" uid="uid://dtl5wi3dgakd4" path="res://resources/inventory/stackables/syringes_stack.tres" id="2_r7smn"]
 [ext_resource type="Texture2D" uid="uid://n827q1ggwiop" path="res://resources/models/items/consumables/medical/syringe/T_MedicalSyringe_Color-T_MedicalSyringe_Alpha_png.png" id="3_h6yox"]
 [ext_resource type="AudioStream" uid="uid://cq2gvau23sx84" path="res://resources/sounds/breathing/sigh/673671__davidnagel__sigh.wav" id="4"]
 [ext_resource type="Texture2D" uid="uid://saoon3ow0sx7" path="res://resources/models/items/consumables/medical/syringe/T_MedicalSyringe_Metallic-T_MedicalSyringe_Roughness.png" id="4_jwip2"]
@@ -64,6 +65,7 @@ radius = 0.015
 mass = 0.3
 time_to_use = 3
 item_name = "Syringe"
+stackable_resource = ExtResource("2_r7smn")
 item_drop_sound = ExtResource("5")
 item_throw_sound = null
 
