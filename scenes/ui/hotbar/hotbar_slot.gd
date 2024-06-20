@@ -19,6 +19,8 @@ var is_equippable_mainhand : bool = false
 var is_equippable_offhand : bool = false
 
 @onready var fadeanimations = $"../../FadeAnim"
+@onready var ammo_count: Label = $ItemInfo/HBoxContainer/AmmoCount
+@onready var item_name_label: Label = $ItemInfo/HBoxContainer/ItemName
 
 
 func _ready():
@@ -92,6 +94,7 @@ func hide_hud():
 func hud_visibility():
 		fadeanimations.play("Fade_in")
 		$"../..".show()
+		update_name()
 
 
 func inventory_bulky_item_changed():
@@ -145,7 +148,14 @@ func update_item_data():
 
 
 func update_name():
-	$"ItemInfo/HBoxContainer/ItemName".text = item.item_name if item else ""
+	if item == null:
+		item_name_label.text = ""
+	else:
+		if item.stackable_resource != null and item.stackable_resource.items_stacked.size() > 1:
+			item_name_label.text = str(item.stackable_resource.items_stacked.size()) + "x " + item.stackable_resource.stack_name
+			pass
+		else:
+			item_name_label.text = item.item_name
 
 
 func update_container_data():   # Things like gun ammo, charges in medical bags, etc
@@ -160,13 +170,13 @@ func update_container_data():   # Things like gun ammo, charges in medical bags,
 		if ammo_type != null and (inventory.tiny_items as Dictionary).has(ammo_type):
 			inv_ammo = inventory.tiny_items[ammo_type]
 		tracking_tiny_item = ammo_type
-		$"ItemInfo/HBoxContainer/AmmoCount".text = CONTAINER_COUNT_TEMPLATE % [current_ammo, inv_ammo]
+		ammo_count.text = CONTAINER_COUNT_TEMPLATE % [current_ammo, inv_ammo]
 	elif item is MedicalItem:
 		if item.max_charges_held > 1:   # In other words, not a single-use consumable
-			$"ItemInfo/HBoxContainer/AmmoCount".text = CONTAINER_COUNT_TEMPLATE % [item.charges_held, item.max_charges_held]
+			ammo_count.text = CONTAINER_COUNT_TEMPLATE % [item.charges_held, item.max_charges_held]
 	else:
 		tracking_tiny_item = null
-		$"ItemInfo/HBoxContainer/AmmoCount".text = ""
+		ammo_count.text = ""
 
 
 func _on_Fade_animation_finished(anim_name):

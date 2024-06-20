@@ -1,6 +1,10 @@
 #class_name Inventory
 extends Node
 
+enum HandEnum {
+	MAIN_HAND,
+	OFF_HAND
+}
 
 signal bulky_item_changed()
 # Emitted when a hotbar slot changes (item added or removed)
@@ -111,6 +115,8 @@ func add_item(item : PickableItem) -> bool:
 	
 	elif item is EquipmentItem:
 		print("item is equipment item")
+		if item.stackable_resource:
+			print("it has a stack")
 		# Update the inventory info immediately
 		# This is a bulky item, or there is no space on the hotbar
 		if item.item_size == GlobalConsts.ItemSize.SIZE_BULKY or !hotbar.has(null):
@@ -119,7 +125,26 @@ func add_item(item : PickableItem) -> bool:
 			unequip_offhand_item()
 			equip_bulky_item(item)
 		else:
-			var slot = 0
+			# Before anything, check if the item can be stacked on anything in the hotbar
+			for hotbar_item: EquipmentItem in hotbar:
+				if hotbar_item == null: continue # go to next hotbar_item if null
+				
+				if hotbar_item.stackable_resource != null and item.stackable_resource != null and hotbar_item.stackable_resource.stack_name == item.stackable_resource.stack_name:
+					print("the item can stack with: " + hotbar_item.name)
+					if hotbar_item.stackable_resource.items_stacked.size() == hotbar_item.stackable_resource.max_stack:
+						print("... but its at full capacity rn")
+					else:
+						print("Hurray! Stacking boois")
+						hotbar_item.stackable_resource.add_item(item)
+						# Schedule the item removal from the world
+						if item.is_inside_tree():
+							item.get_parent().remove_child(item)
+						
+						emit_signal("inventory_changed")
+						return true
+				pass
+			
+			var slot: int = 0
 			
 			### Probably can be cleaned up - part 1 is to put lights offhand, part 2 is everything else
 			### Part 1 - Checks if something is in offhand; if not, and this is a light, put it in offhand
@@ -154,6 +179,12 @@ func add_item(item : PickableItem) -> bool:
 			slot = current_mainhand_slot
 			# Then the offhand, preferring this slot for lights
 			if hotbar[slot] != null:
+				
+				#var current_equipped_item: EquipmentItem = hotbar[slot] as EquipmentItem
+				#if current_equipped_item.stackable_resource != null and current_equipped_item.stackable_resource == item.stackable_resource: #checks if the current mainhand item is stackable
+					#print("the item can be stacked with the mainhand item")
+				#else:
+				
 				print("Current hotbar slot, ", slot + 1, " is null. Setting slot to current offhand slot")
 				slot = current_offhand_slot
 			# Then the first empty slot
@@ -162,6 +193,9 @@ func add_item(item : PickableItem) -> bool:
 			# This checks if the slot to add the item isn't the hands-free slot then adds the item to the slot
 			if slot != 10:
 				hotbar[slot] = item
+				
+				if item.stackable_resource != null:
+					item.stackable_resource.add_item(item)
 				# Schedule the item removal from the world
 				if item.is_inside_tree():
 					item.get_parent().remove_child(item)
@@ -393,18 +427,63 @@ func drop_hotbar_slot(slot : int) -> Node:
 	var item = hotbar[slot]
 	if not item == null:
 		var item_node = item as EquipmentItem
-		hotbar[slot] = null
-		if current_mainhand_equipment == item_node:
-			unequip_mainhand_item()
-		elif current_offhand_equipment == item_node:
-			unequip_offhand_item()
-		if item_node:
-			if item_node.can_attach == true:
-				remove_from_belt(item)
-				item_node.get_parent().remove_child(item_node)
-				_drop_item(item_node)
+		
+		if item_node.stackable_resource == null:
+			hotbar[slot] = null
+			if current_mainhand_equipment == item_node:
+				unequip_mainhand_item()
+			elif current_offhand_equipment == item_node:
+				unequip_offhand_item()
+			if item_node:
+				if item_node.can_attach == true:
+					remove_from_belt(item)
+					item_node.get_parent().remove_child(item_node)
+					_drop_item(item_node)
+				else:
+					_drop_item(item_node)
+		else:
+			item.stackable_resource.items_stacked.remove_at(0)
+			var hand = null
+			if item.stackable_resource.items_stacked.is_empty() == false:
+				var next_item = item.stackable_resource.items_stacked[0]
+				next_item.stackable_resource = item.stackable_resource
+				hotbar[slot] = next_item
+				
+				# Prepare for the droping
+				if current_mainhand_equipment == item_node:
+					unequip_mainhand_item()
+					hand = HandEnum.MAIN_HAND
+				elif current_offhand_equipment == item_node:
+					unequip_offhand_item()
+					hand = HandEnum.OFF_HAND
+				
+				# Drop the item (it needed to be unequiped first)
+				if item_node.can_attach == true:
+					remove_from_belt(item)
+					item_node.get_parent().remove_child(item_node)
+					_drop_item(item_node)
+				else:
+					_drop_item(item_node)
+				
+				# Equip the new item of the stack
+				match hand:
+					HandEnum.MAIN_HAND:
+						equip_mainhand_item()
+					HandEnum.OFF_HAND:
+						equip_offhand_item()
 			else:
-				_drop_item(item_node)
+				hotbar[slot] = null
+				if current_mainhand_equipment == item_node:
+					unequip_mainhand_item()
+				elif current_offhand_equipment == item_node:
+					unequip_offhand_item()
+				if item_node:
+					if item_node.can_attach == true:
+						remove_from_belt(item)
+						item_node.get_parent().remove_child(item_node)
+						_drop_item(item_node)
+					else:
+						_drop_item(item_node)
 		emit_signal("hotbar_changed", slot)
 	return item
 
@@ -438,9 +517,6 @@ func _drop_item(item : EquipmentItem):
 			GameManager.game.level.add_child(item)
 			print("Item added to level at position: ", item.global_position)
 			
-#		if item is EquipmentItem:
-#			if item.item_state == GlobalConsts.ItemState.DAMAGING:
-#				item.apply_throw_logic()
 	
 	elif !GameManager.game:   # This is here for test scenes
 		if item.item_state == GlobalConsts.ItemState.DROPPED:   # Placed

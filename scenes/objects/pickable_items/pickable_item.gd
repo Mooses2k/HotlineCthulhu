@@ -41,7 +41,6 @@ var is_soundplayer_ready = false
 
 @onready var placement_position = %PlacementAnchor
 
-
 func _enter_tree():
 	# This was put here to try to stop sounds early in level load, but it bugs throwing.
 	#await get_tree().create_timer(2).timeout

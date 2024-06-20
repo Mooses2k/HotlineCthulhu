@@ -1,4 +1,3 @@
-@tool
 class_name EquipmentItem
 extends PickableItem
 
@@ -14,6 +13,9 @@ signal used_unload()
 @export var item_name : String = "Equipment"
 @export var horizontal_holding : bool = false
 @export var throw_pos_path : NodePath
+
+@export_subgroup("Stacking")
+@export var stackable_resource: StackableResource
 
 var is_in_belt = false
 
@@ -52,12 +54,16 @@ func apply_throw_logic():
 # Override this function for (Left-Click and E, typically) use actions
 func _use_primary():
 	print("use primary")
+	if stackable_resource != null:
+		stackable_resource.items_stacked.pop_front()
 	pass
 
 
 # Right-click, typically
 func _use_secondary():
 	print("use secondary")
+	if stackable_resource != null:
+		stackable_resource.items_stacked.pop_front()
 	pass
 
 
