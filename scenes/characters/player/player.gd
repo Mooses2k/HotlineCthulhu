@@ -47,7 +47,7 @@ func _process(delta: float) -> void:
 		inventory.get_offhand_item().light()
 		initial_light_needed = false
 	
-	# TODO: This should probably be in character.gd
+	# TODO: This maybe should be in character.gd
 	if is_reloading == true:
 		if noise_level < 8:
 			noise_level = 8
@@ -56,12 +56,6 @@ func _process(delta: float) -> void:
 	if light_level > 0.003:   # Maybe ensure this is the same as the detection light-level as another way for the player to know when they're in darkness
 #		$KinestheticSense.visible = false
 		$KinestheticSense.light_energy = move_toward($KinestheticSense.light_energy, 0.0, 1.0 * delta)
-		#$KinestheticSense/Tween.interpolate_property($KinestheticSense, "light_energy", $KinestheticSense.light_energy, 0.0, 1.0)
-		#$KinestheticSense/Tween.start()
-#		print("Lit up, kinesthetic sense fading: ", $KinestheticSense.light_energy)
 	else:
 #		$KinestheticSense.visible = true
 		$KinestheticSense.light_energy = move_toward($KinestheticSense.light_energy, 0.2, 1.0 * delta)
-		#$KinestheticSense/Tween.interpolate_property($KinestheticSense, "light_energy", $KinestheticSense.light_energy, 0.2, 1.0)
-		#$KinestheticSense/Tween.start()
-#		print("In the dark, kinesthetic sense increasing: ", $KinestheticSense.light_energy)

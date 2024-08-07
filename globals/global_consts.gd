@@ -2,10 +2,10 @@ class_name GlobalConsts
 extends Object
 
 
-# Keeping enums/conts on a centralized location helps prevent cyclic
+# Keeping enums/consts in a centralized location helps prevent cyclic
 # reference errors
 
-enum _AttackTypes {
+enum AttackTypes {
 	BLUDGEONING, # Blunt
 	SLASHING,
 	PIERCING,

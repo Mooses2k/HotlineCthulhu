@@ -44,7 +44,7 @@ func _on_Bomb_explosion():
 			var body = intersection.collider as RigidBody3D
 			body.apply_impulse(
 				intersection.position - body.global_position,
-				global_position.direction_to(intersection.position)*scaled_damage * IMPULSE_MULTIPLIER
+				global_position.direction_to(intersection.position) * scaled_damage * IMPULSE_MULTIPLIER
 			)
 					
 		# If the body has a hitbox, apply damage
@@ -52,7 +52,7 @@ func _on_Bomb_explosion():
 			print("Bomb area intersected with Hitbox")
 			var object = intersection.collider.owner
 			if is_instance_valid(object) and object.has_method("damage"):
-				object.damage(floor(scaled_damage), owner.damage_type, intersection.collider)
+				object.damage(floor(scaled_damage), owner.damage_type)
 				print("Bomb exploded and detected a character, ",object, " with damage() method for ", scaled_damage)
 
 

@@ -106,7 +106,19 @@ func reset_auto_close_timer():
 #	time_to_auto_close = rand_range(door_auto_close_delay_min, door_auto_close_delay_max)   # Actual logic
 
 
-func break_door(position, impulse, damage):
+# TODO: Shooting doors not currently working
+func damage(damage, damage_type = GlobalConsts.AttackTypes.BLUDGEONING, position = self.position, impulse = 0):
+	if damage < 10:
+		door_kick_ineffective_sound.play()
+	else:
+		door_kick_effective_sound.play()
+		health -= damage
+	prints("Door health:", health)
+	if health <= 0:
+		break_door(damage, damage_type, position, impulse)   # TODO: have a way for bomb to set middle param which is impulse direction (away from explosion)
+
+
+func break_door(damage, damage_type = GlobalConsts.AttackTypes.BLUDGEONING, position = self.position, impulse = 0):
 	door_state = DoorState.BROKEN
 	door_break_sound.play()
 	var global_door_transform = broken_door_origin.global_transform
@@ -143,29 +155,14 @@ func _on_Interactable_character_interacted(character):
 				door_shake_sound.play()
 
 
-# TODO: Shooting doors not currently working
-#func damage(damage_amount, damage_type, target):
-#	if damage_amount < 10:
-#		door_kick_ineffective_sound.play()
-#	else:
-#		door_kick_effective_sound.play()
-#	health -= damage_amount
-#	print("Door health : ", health)
-#	if health <= 0:
-#		break_door()
-
-
 func _on_Interactable_kicked(position, impulse, damage) -> void:
-	health -= damage
-	door_kick_effective_sound.play()
-	print("Door health : ", health)
-	if health <= 0:
-		break_door(position, impulse, damage)
+	damage(damage, GlobalConsts.AttackTypes.BLUDGEONING, position, impulse)
+	print("Door kicked")
 	
-	# TODO: kick currently always opens it, but if you kick from hinge side, should close door
-	# This should automatically be fixed by using RigidBody doors in the future
-	if door_state == DoorState.AUTO_CLOSING and door_hinge_z_axis.rotation.y > door_close_threshold:
-		door_state = DoorState.OPEN
+	## TODO: kick currently always opens it, but if you kick from hinge side, should close door
+	## This should automatically be fixed by using RigidBody doors in the future
+	#if door_state == DoorState.AUTO_CLOSING and door_hinge_z_axis.rotation.y > door_close_threshold:
+		#door_state = DoorState.OPEN
 
 
 func _on_NpcDetector_body_entered(body):

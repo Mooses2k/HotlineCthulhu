@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://dp6gc4qb2fl4b"]
+[gd_scene load_steps=14 format=3 uid="uid://dp6gc4qb2fl4b"]
 
 [ext_resource type="PackedScene" path="res://scenes/objects/pickable_items/equipment/consumable/medical/_medical_item.tscn" id="1"]
+[ext_resource type="Resource" uid="uid://baqlixph5okus" path="res://resources/inventory/stackables/vials_stack.tres" id="2_rm1iy"]
 [ext_resource type="AudioStream" uid="uid://dv0bd0pmmgo8f" path="res://resources/sounds/bottles_and_drinking/256568__sjnewton__cork.mp3" id="3"]
 [ext_resource type="Texture2D" uid="uid://m68nuwdcht1v" path="res://resources/models/items/consumables/medical/glass_vial_medicine/glass_vial_medicine_T_MedicalVial_Base_color-T_MedicalVial_Opacity.png" id="3_h040s"]
 [ext_resource type="AudioStream" uid="uid://bdk5biynr45bq" path="res://resources/sounds/bottles_and_drinking/445970__breviceps__drink-drinking-liquid.wav" id="4"]
@@ -62,6 +63,7 @@ points = PackedVector3Array(-0.0118021, 0.020487, -0.0194969, 0.016597, -0.04473
 heal_amount = 20
 time_to_use = 3
 item_name = "Glass vial of mystery juice"
+stackable_resource = ExtResource("2_rm1iy")
 item_drop_sound = ExtResource("6")
 
 [node name="MeshInstance3D" parent="." index="0"]

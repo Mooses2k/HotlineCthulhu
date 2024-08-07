@@ -17,7 +17,7 @@ func _ready():
 func _physics_process(delta):
 	if player_in_killzone:
 		if $OmniLight3D.light_energy >= 14:
-			player_hitbox.damage(1, AttackTypes.Types.SPECIAL, player_hitbox)
+			player_hitbox.damage(1, GlobalConsts.AttackTypes.SPECIAL)
 	_pitch_alter_chant_based_on_distance()
 
 

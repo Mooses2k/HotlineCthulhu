@@ -12,7 +12,7 @@ const PI_BY_FOUR = PI / 4
 
 var _alive : bool = true
 var _type_damage_multiplier : PackedByteArray
-@export var immunities : Array # (Array, AttackTypes.Types)
+@export var immunities : Array # (Array, GlobalConsts.AttackTypes)
 @export var max_health : int = 100
 @onready var current_health : int = self.max_health
 
@@ -26,8 +26,8 @@ var _type_damage_multiplier : PackedByteArray
 @export var kick_damage : int = 15   # 3 kicks for a cultist, 5 for a door to start with?
 @export var kick_impulse : float = 7
 @export var kick_max_speed : float = 10.0
-@export var kick_damage_type : int = 0 # (AttackTypes.Types)
-#export(AttackTypes.Types) var damage_type : int = 0
+@export var kick_damage_type : int = 0 # (GlobalConsts.AttackTypes)
+#export(GlobalConsts.AttackTypes) var damage_type : int = 0
 
 @export var animation_tree_path : NodePath
 
@@ -182,12 +182,13 @@ var is_reloading = false
 @onready var legcast : RayCast3D = get_node(_legcast) as RayCast3D
 @onready var _speech_player = get_node("Audio/Speech")
 
+# TODO: these shouldn't have to be loaded per character or it just wastes memory
 @onready var item_drop_sound_flesh : AudioStream = load("res://resources/sounds/impacts/blade_to_flesh/blade_to_flesh.wav")
 @onready var kick_sound : AudioStream = load("res://resources/sounds/throwing/346373__denao270__throwing-whip-effect.wav")
 
 
 func _ready():
-	_type_damage_multiplier.resize(AttackTypes.Types._COUNT)
+	_type_damage_multiplier.resize(GlobalConsts.AttackTypes._COUNT)
 	for i in _type_damage_multiplier.size():
 		_type_damage_multiplier[i] = 1
 	for immunity in self.immunities:
@@ -282,8 +283,6 @@ func _physics_process(delta : float):
 
 
 func kick():
-	#prints("Kick timer stopped:", kick_timer.is_stopped())
-	#prints("legcast colliding:", legcast.is_colliding())
 	if kick_timer.is_stopped() and legcast.is_colliding() and stamina > 50:
 		var kick_object = legcast.get_collider()
 		if is_instance_valid(_camera):
@@ -291,11 +290,12 @@ func kick():
 		kick_timer.start()
 		stamina -= 50
 		
+		# TODO: these should be moved to the scripts they refer to, character.gd shoudn't need to know/depend on directly what it kicked
 		if kick_object is DoorInteractable and is_grabbing == false:
-			kick_object.emit_signal("kicked", legcast.get_collision_point(), -global_transform.basis.z, kick_damage)
+			kick_object.emit_signal("kicked", legcast.get_collision_point(), -global_transform.basis.z, kick_damage)   # (location of kick, forward from player, damage)
 			
 		elif kick_object.is_in_group("CHARACTER"):
-			kick_object.get_parent().damage(kick_damage, kick_damage_type , kick_object)
+			kick_object.get_parent().damage(kick_damage, kick_damage_type)
 			$"Audio/Movement".stream = item_drop_sound_flesh
 			$"Audio/Movement".play()
 		
@@ -304,10 +304,11 @@ func kick():
 				kick_object = kick_object.get_parent()   # You just kicked the IGNITE area
 #			print(kick_object.get_class())
 			var actual_kick_impulse = min(kick_impulse, kick_object.mass * kick_max_speed)
-			if kick_object is PickableItem:   # Is a large object like a floor candelabra
+			
+			if kick_object is PickableItem:   # Is probably a PickableItem
 				kick_object.apply_central_impulse(-global_transform.basis.z * actual_kick_impulse)
 				kick_object.play_drop_sound(kick_object)
-			elif kick_object.has_method("play_drop_sound"):   # Is probably a PickableItem
+			elif kick_object.has_method("play_drop_sound"):   # Is probably a large object like a floor candelabra
 				kick_object.apply_central_impulse(-global_transform.basis.z * actual_kick_impulse)
 				kick_object.play_drop_sound(10, false)
 	else:
@@ -317,7 +318,7 @@ func kick():
 		$"Audio/Movement".play()
 
 
-func damage(value : int, type : int, on_hitbox : Hitbox):
+func damage(value : int, type : int):
 	if self._alive:
 		self.current_health -= self._type_damage_multiplier[type] * value
 		self.emit_signal("is_hit", current_health)

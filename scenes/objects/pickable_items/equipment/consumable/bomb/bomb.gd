@@ -5,7 +5,7 @@ extends ConsumableItem
 @export var radius = 5 # meters
 #export var fragments = 200 # number of raycasts and/or particles
 @export var bomb_damage : float #amount of damage to be registered
-@export var damage_type : int = 0 # (AttackTypes.Types)
+@export var damage_type : int = 0 # (GlobalConsts.AttackTypes)
 
 var countdown_started = false
 
@@ -78,7 +78,7 @@ func _on_Countdown_timeout():
 		# If it blows up in hand
 		if owner_character.is_in_group("CHARACTER") and item_state == GlobalConsts.ItemState.EQUIPPED:
 	#		print("Bomb blew up in ", owner_character, "'s hand for ", fragments / 4 * bomb_damage, " damage.")
-			owner_character.damage(bomb_damage, damage_type, owner_character) # TODO: fix bomb blowinog up in character's hand
+			owner_character.damage(bomb_damage, damage_type) # TODO: fix bomb blowing up in character's hand
 			throwing = true
 		
 		# Camera shake, untested

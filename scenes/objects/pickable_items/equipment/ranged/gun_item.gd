@@ -138,8 +138,8 @@ func shoot():
 			var global_hit_position = raycast.get_collision_point()
 			var global_hit_direction = raycast.global_transform.basis * (shoot_direction)
 			var global_hit_normal = raycast.get_collision_normal()
-			if target is Hitbox and target.owner.has_method("damage"):
-				target.owner.damage(total_damage, ammo_type.attack_type, target)
+			if target is Hitbox or target.owner.has_method("damage"):
+				target.owner.damage(total_damage, ammo_type.attack_type)
 			emit_signal("target_hit", target, global_hit_position, global_hit_direction, global_hit_normal)
 	raycast.target_position = Vector3.FORWARD * raycast_range
 	current_ammo -= 1

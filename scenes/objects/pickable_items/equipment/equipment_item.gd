@@ -51,7 +51,7 @@ func apply_throw_logic():
 #		angular_velocity.z = -15   # Ah, maybe not working because it's already been put in world_space at this point
 
 
-# Override this function for (Left-Click and E, typically) use actions
+# Override this function for (LMB mainhand, LAlt offhand) tap-to-use actions
 func _use_primary():
 	print("use primary")
 	if stackable_resource != null:
@@ -59,7 +59,7 @@ func _use_primary():
 	pass
 
 
-# Right-click, typically
+# Override this function for (LMB mainhand, LAlt offhand) hold-to-use actions
 func _use_secondary():
 	print("use secondary")
 	if stackable_resource != null:
@@ -67,12 +67,13 @@ func _use_secondary():
 	pass
 
 
-# Reloads can only happen in main-hand
+# Reloads can only happen in main-hand, currently
 func _use_reload():
 	print("use reload")
 	pass
 
 
+# Unloads all ammo
 func _use_unload():
 	print("use unload")
 	pass

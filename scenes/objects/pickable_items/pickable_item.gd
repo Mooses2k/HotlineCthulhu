@@ -14,7 +14,7 @@ signal item_state_changed(previous_state, current_state)
 @export var max_speed : float = 12.0
 @export var item_drop_sound : AudioStream
 @export var item_throw_sound : AudioStream
-@export var melee_damage_type : int = 0 # (AttackTypes.Types)
+@export var melee_damage_type : int = 0 # (GlobalConsts.AttackTypes)
 
 var owner_character : Node = null
 var item_state = GlobalConsts.ItemState.DROPPED: set = set_item_state
@@ -182,7 +182,7 @@ func throw_damage(delta):
 					item_damage = 1
 				
 				print("Damage inflicted on: ", body_found.name, " is: ", item_damage)
-				body_found.damage(item_damage, melee_damage_type, body_found)
+				body_found.damage(item_damage, melee_damage_type)
 				has_thrown = false
 				decelerate_item_velocity(delta, true)
 				set_item_state(GlobalConsts.ItemState.DROPPED)

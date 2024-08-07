@@ -15,13 +15,13 @@ enum WeaponType {
 @export var weapon_type: WeaponType = 0
 
 # primary and secondary here refer to primary use (L-Click) and secondary use (R-Click)
-@export var primary_damage_type1 : int = 0 # (AttackTypes.Types)
+@export var primary_damage_type1 : int = 0 # (GlobalConsts.AttackTypes)
 @export var primary_damage1 = 0
-@export var primary_damage_type2 : int = 0 # (AttackTypes.Types)
+@export var primary_damage_type2 : int = 0 # (GlobalConsts.AttackTypes)
 @export var primary_damage2 = 0
-@export var secondary_damage_type1 : int = 0 # (AttackTypes.Types)
+@export var secondary_damage_type1 : int = 0 # (GlobalConsts.AttackTypes)
 @export var secondary_damage1 = 0
-@export var secondary_damage_type2 : int = 0 # (AttackTypes.Types)
+@export var secondary_damage_type2 : int = 0 # (GlobalConsts.AttackTypes)
 @export var secondary_damage2 = 0
 @export var melee_attack_speed : float = 1.0
 @export var cooldown = 0.01
@@ -138,11 +138,11 @@ func _on_CooldownTimer_timeout() -> void:
 func _on_Hitbox_hit(other):
 	if can_hit and other.owner != owner_character and other.owner.has_method("damage"):
 		if did_a_thrust:
-			other.owner.damage(primary_damage1, primary_damage_type1, other)
-			other.owner.damage(primary_damage2, primary_damage_type2, other)
+			other.owner.damage(primary_damage1, primary_damage_type1)
+			other.owner.damage(primary_damage2, primary_damage_type2)
 		if did_a_cut:
-			other.owner.damage(secondary_damage1, secondary_damage_type1, other)
-			other.owner.damage(secondary_damage1, secondary_damage_type2, other)
+			other.owner.damage(secondary_damage1, secondary_damage_type1)
+			other.owner.damage(secondary_damage1, secondary_damage_type2)
 		can_hit = false
 
 

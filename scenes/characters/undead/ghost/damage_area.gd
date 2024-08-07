@@ -5,7 +5,7 @@ extends Area3D
 func _process(delta):
 	for body in self.get_overlapping_bodies():
 		if body.is_in_group("CHARACTER"):
-			body.damage(dps*delta, AttackTypes.Types.SPECIAL, null)
+			body.damage(dps * delta, GlobalConsts.AttackTypes.SPECIAL)
 			if body is Player:
 				var player = body as Player
 				player.tinnitus.enable()
