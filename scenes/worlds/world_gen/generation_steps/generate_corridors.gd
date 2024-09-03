@@ -77,6 +77,9 @@ func _execute_step(data : WorldData, gen_data : Dictionary, _generation_seed : i
 			if count-1 == _stop_at_corridor_count:
 				break
 	
+	# Cleans up the astar so that we can use it going forwards as a reliable astar for
+	# any paths inside the dungeon level
+	_remove_empty_cells(data, astar)
 	if is_instance_valid(_room_graph_viz):
 		_room_graph_viz.astar = astar
 	
@@ -328,6 +331,34 @@ func _disconnect_room_walls_from_grid(data: WorldData, astar: AStar2D, room: Roo
 			if neighbour_index != -1 and not neighbour_index in room.cell_indexes and not is_door:
 				if astar.are_points_connected(cell_index, neighbour_index):
 					astar.disconnect_points(cell_index, neighbour_index)
+
+
+func _remove_empty_cells(data: WorldData, astar: ManhattanAStar2D) -> void:
+	for x in range(1, data.world_size_x - 1):
+		for z in range(1, data.world_size_z - 1):
+			var cell_index := data.get_cell_index_from_int_position(x, z)
+			if data.get_cell_type(cell_index) == data.CellType.EMPTY:
+				astar.remove_point(cell_index)
+			else:
+				if not astar.has_point(cell_index):
+					var point := Vector2(x, z)
+					astar.add_point(cell_index, point)
+					_connect_to_valid_neighbors(cell_index, point, data, astar)
+
+
+func _connect_to_valid_neighbors(
+		from_index: int, 
+		from: Vector2, 
+		data: WorldData, 
+		astar: ManhattanAStar2D
+) -> void:
+	for direction in [Vector2.UP, Vector2.RIGHT, Vector2.DOWN, Vector2.LEFT]:
+		var to: Vector2 = from + direction
+		if data.is_inside_world_bounds(to.x, to.y):
+			var to_index := data.get_cell_index_from_int_position(to.x, to.y)
+			if not data.get_cell_type(to_index) == data.CellType.EMPTY:
+				astar.connect_points(from_index, to_index)
+	
 
 #--------------------------------------------------------------------------------------------------
 
