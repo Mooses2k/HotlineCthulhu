@@ -27,7 +27,6 @@ var _is_debug_label_visible := true
 #- Built-in Virtual Overrides --------------------------------------------------------------------
 
 func _ready() -> void:
-	super()
 	if get_tree().current_scene == self:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		# warning-ignore:return_value_discarded
@@ -43,6 +42,7 @@ func _ready() -> void:
 		LoadScene.connect("loading_screen_removed", Callable(self, "_on_LoadScene_loading_screen_removed"))
 		GameManager.is_player_dead = false
 		GameManager.act = 1
+	super()
 
 #--------------------------------------------------------------------------------------------------
 

@@ -829,6 +829,9 @@ script = ExtResource("28")
 
 [node name="AnimationTree" parent="." index="25"]
 root_node = NodePath("%MainCharOnlyArmsGameRig")
+libraries = {
+"": SubResource("AnimationLibrary_1g5ph")
+}
 tree_root = SubResource("365")
 anim_player = NodePath("../PlayerAnimationPlayer")
 parameters/Hand_Transition/current_state = "Hand_Combinations"
@@ -1106,9 +1109,10 @@ extra_cull_margin = 16384.0
 mesh = SubResource("371")
 
 [node name="DebugLight" type="SpotLight3D" parent="FPSCamera" index="8"]
-visible = false
 layers = 131
 spot_range = 20.0
+spot_attenuation = 0.15
+spot_angle = 60.0
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="FPSCamera" index="9"]
 anchors_preset = 15

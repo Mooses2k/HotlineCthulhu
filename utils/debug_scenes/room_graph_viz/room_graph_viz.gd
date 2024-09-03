@@ -212,7 +212,7 @@ func _set_draw_astar_connections(value: bool) -> void:
 
 func _set_draw_player(value: bool) -> void:
 	draw_player = value
-	set_process(draw_player)
+	_player_icon.visible = draw_player
 
 
 func _set_world_data(value: WorldData) -> void:
