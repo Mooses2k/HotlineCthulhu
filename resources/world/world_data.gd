@@ -227,10 +227,14 @@ var pillar_tile_index : PackedInt32Array
 var ceiling_tile_index : PackedInt32Array
 
 
-# Player spawn position in World Coordinates
+# Player spawn position data
 # Keys are RoomData.OriginalPurpose STAIRCASE values
-# Values are dictionaries in the format: 
-# { "position": Vector2, "y_rotation": radians_angle } 
+# Values are dictionaries where keys are CellIndexes and values are other important information
+# like player spawn position or player rotaion. Ex: 
+# { 
+#		RoomData.OriginalPurpose.UP_STAIRCASE: { 57: {position: Vector3, y_rotation}, 13: {}, }
+#		RoomData.OriginalPurpose.DOWN_STAIRCASE: { 77: {position: Vector3 }
+# } 
 var player_spawn_positions := {}
 
 # Dictionary in the format:
@@ -436,14 +440,15 @@ func get_cell_index_from_int_position(x : int, z : int) -> int:
 
 
 # Should use is_spawn_position_valid() before calling this function
-func get_player_spawn_position_as_index(staircase_type: int) -> int:
-	var value := -1
+func get_player_spawn_cells(staircase_type: int) -> Array:
+	var value := []
 	
 	if (
 			staircase_type == RoomData.OriginalPurpose.DOWN_STAIRCASE 
 			or staircase_type == RoomData.OriginalPurpose.UP_STAIRCASE
 	):
-		value = get_cell_index_from_local_position(player_spawn_positions[staircase_type])
+		for cell_index in player_spawn_positions[staircase_type]:
+			value += player_spawn_positions[staircase_type][cell_index]["cell_indexes"]
 	
 	return value
 
@@ -562,10 +567,9 @@ func remove_used_cells_from(p_array :Array[int]) -> Array[int]:
 		value.erase(cell_index)
 	
 	if is_spawn_position_valid():
-		var player_cells := [
-				get_player_spawn_position_as_index(RoomData.OriginalPurpose.UP_STAIRCASE),
-				get_player_spawn_position_as_index(RoomData.OriginalPurpose.DOWN_STAIRCASE),
-		]
+		var up_staircases := get_player_spawn_cells(RoomData.OriginalPurpose.UP_STAIRCASE)
+		var down_staircases := get_player_spawn_cells(RoomData.OriginalPurpose.DOWN_STAIRCASE)
+		var player_cells := up_staircases + down_staircases
 		for player_cell in player_cells:
 			value.erase(player_cell)
 	
