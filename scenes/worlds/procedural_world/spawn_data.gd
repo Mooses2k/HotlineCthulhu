@@ -35,9 +35,12 @@ func _init() -> void:
 
 
 func _to_string() -> String:
-	var msg := "[SpawnData:%s | amount: %s scene_path: %s tranforms: %s]"%[
-			get_instance_id(), amount, scene_path, _transforms
+	var msg := "[SpawnData:%s | amount: %s scene_path: %s]"%[
+			get_instance_id(), amount, scene_path
 	]
+	for index in amount:
+		var transform: Transform3D = _transforms[index]
+		msg += "\n[--- %s | transform: %s]"%[index, transform]
 	return msg
 
 #--------------------------------------------------------------------------------------------------
