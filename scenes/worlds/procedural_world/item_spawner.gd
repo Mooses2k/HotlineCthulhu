@@ -26,7 +26,7 @@ func _ready() -> void:
 # Parent GameWorld script connects here.
 func _on_game_world_generation_finished():
 	var data := owner.world_data as WorldData
-	_spawn_initial_settings_items(data)
+	#_spawn_initial_settings_items(data)
 	_spawn_world_data_objects(data)
 	
 	has_finished_spawning = true
