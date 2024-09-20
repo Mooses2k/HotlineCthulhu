@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://d1lbexonric4u"]
+[gd_scene load_steps=32 format=3 uid="uid://d1lbexonric4u"]
 
 [ext_resource type="PackedScene" uid="uid://dayafaxmfcfqx" path="res://scenes/worlds/game_world.tscn" id="1"]
 [ext_resource type="Script" path="res://scenes/worlds/procedural_world/procedural_world.gd" id="2"]
@@ -25,12 +25,11 @@
 [ext_resource type="Script" path="res://scenes/worlds/world_gen/generation_steps/populate_room/generate_sarcophagus.gd" id="23"]
 [ext_resource type="Script" path="res://scenes/worlds/world_gen/generation_steps/populate_room/generate_staircases.gd" id="24"]
 [ext_resource type="Script" path="res://scenes/worlds/world_gen/generation_steps/populate_room/generate_large_obj_items.gd" id="25"]
-[ext_resource type="Resource" path="res://scenes/worlds/procedural_world/sarco_fountain_item_list.tres" id="26"]
+[ext_resource type="Resource" uid="uid://ceb6yaayeflsh" path="res://scenes/worlds/procedural_world/sarco_fountain_item_list.tres" id="26"]
 [ext_resource type="Script" path="res://scenes/worlds/procedural_world/generate_initial_settings_items.gd" id="26_sotqo"]
 [ext_resource type="Resource" uid="uid://cr2ioviux8kdv" path="res://scenes/worlds/procedural_world/sarco_lids_item_list.tres" id="27"]
 [ext_resource type="Script" path="res://scenes/worlds/world_gen/generation_steps/generate_doors.gd" id="28"]
 [ext_resource type="PackedScene" uid="uid://b8fhjqun0honf" path="res://scenes/objects/large_objects/doors/base_kinematic_door.tscn" id="29"]
-[ext_resource type="Resource" path="res://scenes/worlds/procedural_world/sarco_shard_list.tres" id="30"]
 
 [sub_resource type="StandardMaterial3D" id="3"]
 shading_mode = 0
@@ -129,9 +128,8 @@ script = ExtResource("25")
 
 [node name="GenerateSarcophagus" type="Node" parent="GenerationManager/PopulateRooms/GenerateLargeObjectsItems" index="0"]
 script = ExtResource("23")
-_sarco_spawn_list_resource = ExtResource("26")
-_sarco_shard_spawn_list_resource = ExtResource("30")
-_sarco_lids_spawn_list_resource = ExtResource("27")
+_inside_spawn_list = ExtResource("26")
+_lid_spawn_list = ExtResource("27")
 _force_lid = -1
 
 [node name="IlluminationGroup" type="Node" parent="GenerationManager/PopulateRooms" index="2"]
@@ -165,3 +163,5 @@ _density_by_type = {
 }
 
 [node name="RoomGraphViz" parent="." index="5" instance=ExtResource("9")]
+draw_astar_grid = true
+draw_astar_connections = true
