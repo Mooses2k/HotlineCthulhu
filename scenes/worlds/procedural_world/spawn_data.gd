@@ -157,6 +157,12 @@ func set_custom_property(key: String, value, instance_index := INF) -> void:
 
 #- Private Methods -------------------------------------------------------------------------------
 
+func _set_custom_properties_on_loaded_scene(index: int, node: Node3D) -> void:
+	var custom_properties := _custom_properties[index] as Dictionary
+	for key in custom_properties:
+		node.set(key, custom_properties[key])
+
+
 func _set_amount(value: int) -> void:
 	amount = int(max(1, value))
 	var old_tranforms = _transforms.duplicate()

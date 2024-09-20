@@ -46,9 +46,7 @@ func spawn_in(node: Node, should_log := false) -> Array[Node]:
 		if item is Node3D:
 			item.transform = _transforms[index]
 		
-		var custom_properties := _custom_properties[index] as Dictionary
-		for key in custom_properties:
-			item.set(key, custom_properties[key])
+		_set_custom_properties_on_loaded_scene(index, item)
 		
 		node.add_child(item, true)
 		
@@ -78,4 +76,3 @@ func _get_center_offset() -> Vector3:
 #- Signal Callbacks -------------------------------------------------------------------------------
 
 #--------------------------------------------------------------------------------------------------
-
