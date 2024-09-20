@@ -1,4 +1,5 @@
 # Write your doc string for this file here
+class_name Sarcophagus
 extends Node3D
 
 # Member Variables and Dependencies ---------------------------------------------------------------
@@ -18,17 +19,15 @@ enum PossibleLids {
 #--- public variables - order: export > normal var > onready --------------------------------------
 
 @export var current_lid := PossibleLids.EMPTY: set = _set_current_lid
-@export var transforms_by_direction := {
-	WorldData.Direction.NORTH: Transform3D(),
-}
 
-var spawnable_items : PackedStringArray
-var sarco_spawnable_items : PackedStringArray
+var inside_spawnable_items: Dictionary = {}
+var lid_spawnable_items: Dictionary = {}
 var wall_direction := -1: set = _set_wall_direction
 
 #--- private variables - order: export > normal var > onready -------------------------------------
 
 var _current_lid_node: RigidBody3D = null
+var _lid_anchor_spawner: AnchorSpawner = null
 
 @onready var _animation_player := $AnimationPlayer as AnimationPlayer
 @onready var _lid_scenes := $LidScenes as ResourcePreloader
@@ -37,6 +36,7 @@ var _current_lid_node: RigidBody3D = null
 		PossibleLids.KNIGHT: $SarcophagusBase/PositionKnight,
 		PossibleLids.SAINT: $SarcophagusBase/PositionSaint,
 }
+@onready var _anchor_spawner := $AnchorSpawner as AnchorSpawner
 
 #--------------------------------------------------------------------------------------------------
 
@@ -46,15 +46,14 @@ var _current_lid_node: RigidBody3D = null
 func _ready() -> void:
 	await _adjust_to_wall_direction()
 	_spawn_lid()
+	_anchor_spawner.spawn_items_on_anchors(inside_spawnable_items)
+	if _lid_anchor_spawner != null:
+		_lid_anchor_spawner.spawn_items_on_anchors(lid_spawnable_items)
 
 #--------------------------------------------------------------------------------------------------
 
 
 #- Public Methods ---------------------------------------------------------------------------------
-
-static func get_random_lid_type(rng: RandomNumberGenerator) -> int:
-	var chosen_lid := rng.randi() % PossibleLids.keys().size()
-	return chosen_lid
 
 #--------------------------------------------------------------------------------------------------
 
@@ -72,9 +71,9 @@ func _spawn_lid() -> void:
 	var packed_scene := _lid_scenes.get_resource(PossibleLids.keys()[current_lid]) as PackedScene
 	_current_lid_node = packed_scene.instantiate() as RigidBody3D
 	
-	_current_lid_node.set("spawnable_items", sarco_spawnable_items)
 	var spawn_node := _lid_positions[current_lid] as Marker3D
 	spawn_node.add_child(_current_lid_node, true)
+	_lid_anchor_spawner = _current_lid_node.get_node_or_null("AnchorSpawner")
 
 
 func _set_current_lid(value: int) -> void:
