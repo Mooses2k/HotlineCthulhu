@@ -1125,8 +1125,6 @@ mesh = SubResource("371")
 [node name="DebugLight" type="SpotLight3D" parent="FPSCamera" index="8"]
 layers = 131
 spot_range = 20.0
-spot_attenuation = 0.15
-spot_angle = 60.0
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="FPSCamera" index="9"]
 anchors_preset = 15
