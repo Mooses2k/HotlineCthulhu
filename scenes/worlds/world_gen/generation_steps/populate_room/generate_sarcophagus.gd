@@ -34,6 +34,7 @@ var _generated_sarco_spawn_data: Array[SarcophagusSpawnData] = []
 
 var _force_lid := -1
 var _rng := RandomNumberGenerator.new()
+var _astar: ManhattanAStar2D = null
 
 #--------------------------------------------------------------------------------------------------
 
@@ -50,8 +51,9 @@ var _rng := RandomNumberGenerator.new()
 
 #- Private Methods -------------------------------------------------------------------------------
 
-func _execute_step(data : WorldData, _gen_data : Dictionary, generation_seed : int):
+func _execute_step(data : WorldData, gen_data : Dictionary, generation_seed : int):
 	_rng.seed = generation_seed
+	_astar = gen_data[KEY_ASTAR]
 	_generate_all_sarco_spawn_data(data)
 	_generate_sarco_items()
 
@@ -100,6 +102,10 @@ func _get_all_cells_for_sarco_segment(data: WorldData, segment: Array, direction
 	var sarco_cells := []
 	
 	for cell_index in segment:
+		# Remove sarco cells close to walls from Astar
+		if _astar.has_point(cell_index):
+			_astar.remove_point(cell_index)
+		
 		sarco_cells.append(cell_index)
 		for _width in sarco_tile_size.y - 1:
 			cell_index = data.get_neighbour_cell(cell_index, width_direction)

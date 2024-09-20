@@ -34,6 +34,8 @@ func get_random_spawn_data(rng: RandomNumberGenerator) -> ItemSpawnData:
 			index += 1
 	
 	spawn_data.scene_path = _current_paths[index]
+	if spawn_data.scene_path.is_empty():
+		push_warning("scene_path for object index %s is empty. Is this intentional?"%[index])
 	spawn_data.amount = rng.randi_range(_current_min_amounts[index], _current_max_amounts[index])
 	
 	_exclude_used_index(index)

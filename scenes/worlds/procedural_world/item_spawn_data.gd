@@ -32,6 +32,9 @@ var _has_spawned := false
 ## Spawns all items from this ItemSpawnData and returns and Array of Spawned nodes.
 func spawn_in(node: Node, should_log := false) -> Array[Node]:
 	var spawned_objects: Array[Node] = []
+	if scene_path.is_empty():
+		return spawned_objects
+	
 	if _has_spawned:
 		return spawned_objects
 	
