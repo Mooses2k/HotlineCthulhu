@@ -18,7 +18,7 @@ extends GameWorld
 #- Built-in Virtual Overrides --------------------------------------------------------------------
 
 func _ready() -> void:
-	await get_tree().idle_frame
+	await get_tree().process_frame
 	create_world(false)
 
 #--------------------------------------------------------------------------------------------------
