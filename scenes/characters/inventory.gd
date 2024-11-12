@@ -146,8 +146,8 @@ func add_item(item : PickableItem) -> bool:
 			
 			var slot: int = 0
 			
-			### Probably can be cleaned up - part 1 is to put lights offhand, part 2 is everything else
-			### Part 1 - Checks if something is in offhand; if not, and this is a light, put it in offhand
+			# Probably can be cleaned up - part 1 is to put lights offhand, part 2 is everything else
+			# Part 1 - Checks if something is in offhand; if not, and this is a light, put it in offhand
 			print("Current offhand equipment: ", current_offhand_equipment)
 			if current_offhand_equipment == null or current_offhand_equipment is EmptyHand:
 				print("Offhand null or empty hands")
@@ -175,7 +175,7 @@ func add_item(item : PickableItem) -> bool:
 							equip_offhand_item()
 							return true   # Thus not processing the further autoequip logic below
 					
-			### Part 2 - Otherwise, normal rules: Select an empty slot, prioritizing the current one, if empty
+			# Part 2 - Otherwise, normal rules: Select an empty slot, prioritizing the current one, if empty
 			slot = current_mainhand_slot
 			# Then the offhand, preferring this slot for lights
 			if hotbar[slot] != null:
@@ -203,7 +203,7 @@ func add_item(item : PickableItem) -> bool:
 				emit_signal("hotbar_changed", slot)
 				emit_signal("inventory_changed")
 				
-				### Auto-equip
+				# Auto-equip
 				# Autoequip if possible - main idea is prefer lights in off-hand and never forceably
 				# put a medium gun in hand if it means pushing out a (lit) light-source
 				# (we currently don't check if it's lit)
