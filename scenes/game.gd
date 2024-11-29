@@ -9,6 +9,13 @@ signal player_spawned(player)
 
 #--- enums ----------------------------------------------------------------------------------------
 
+enum GAMES {
+	BASE_GAME,
+	FENCING_SIM
+}
+
+@export_enum("Base Game", "Fencing Sim") var game_to_load: int = GAMES.BASE_GAME
+
 #--- constants ------------------------------------------------------------------------------------
 
 # Starts at -1 and goes down to -5 so that it's a but more intuitive to talk about the dungeon
@@ -19,6 +26,7 @@ const LOWEST_FLOOR_LEVEL = -5
 #--- public variables - order: export > normal var > onready --------------------------------------
 
 @export var start_level_scn : PackedScene
+@export var fencing_sim_world: PackedScene
 @export var player_scn : PackedScene
 @export var floor_sizes := {
 	HIGHEST_FLOOR_LEVEL: 15,
@@ -62,7 +70,14 @@ func _ready():
 
 	await get_tree().create_timer(1).timeout
 	var _error = connect("level_loaded", Callable(self, "_on_first_level_loaded").bind(), CONNECT_ONE_SHOT)
-	load_level(start_level_scn)
+	
+	if game_to_load == GAMES.BASE_GAME: # Player is trying to play Base game
+		load_level(start_level_scn)
+	elif game_to_load == GAMES.FENCING_SIM: # Fencing Sim
+		load_level(fencing_sim_world)
+		world_environment.environment.volumetric_fog_enabled = true
+		world_environment.environment.volumetric_fog_density = 0
+	
 	BackgroundMusic.stop()
 
 
@@ -91,10 +106,11 @@ func load_level(packed : PackedScene):
 
 		var is_lowest_level := current_floor_level == LOWEST_FLOOR_LEVEL
 		var current_floor_size: int = floor_sizes[current_floor_level]
-		level.create_world(is_lowest_level, current_floor_size)
+		if game_to_load == GAMES.BASE_GAME:
+			level.create_world(is_lowest_level, current_floor_size)
 
-		_loaded_levels[current_floor_level] = FloorLevelHandler.new(level, current_floor_level)
-		await level.spawning_world_scenes_finished
+			_loaded_levels[current_floor_level] = FloorLevelHandler.new(level, current_floor_level)
+			await level.spawning_world_scenes_finished
 	else:
 		var level_handler: FloorLevelHandler = _loaded_levels[current_floor_level]
 		level = level_handler.get_level_instance()

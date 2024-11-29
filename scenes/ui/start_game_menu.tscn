@@ -65,6 +65,12 @@ custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 text = "Start Game"
 
+[node name="FencingDemo" type="Button" parent="MarginContainer/HBoxContainer/Column4"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "Fight In A Hole"
+
 [node name="ShowDebugOptions" type="Button" parent="MarginContainer/HBoxContainer/Column4"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
@@ -91,6 +97,7 @@ layout_mode = 2
 stream = ExtResource("5")
 
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Column4/StartGame" to="." method="_on_StartGame_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Column4/FencingDemo" to="." method="_on_fencing_demo_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Column4/ShowDebugOptions" to="MarginContainer/HBoxContainer/ScrollContainer/SettingsUI" method="_on_ShowDebugOptions_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Column4/ReturnButton" to="." method="_on_ReturnButton_pressed"]
 [connection signal="intro_done" from="GameIntro" to="." method="_on_GameIntro_intro_done"]

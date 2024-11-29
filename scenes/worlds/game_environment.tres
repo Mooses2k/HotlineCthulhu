@@ -1,10 +1,16 @@
-[gd_resource type="Environment" format=3 uid="uid://bxgnfe0qgcrm"]
+[gd_resource type="Environment" load_steps=2 format=3 uid="uid://bxgnfe0qgcrm"]
+
+[sub_resource type="Sky" id="Sky_182er"]
 
 [resource]
-background_mode = 1
-ambient_light_sky_contribution = 0.0
-ambient_light_energy = 0.0
+resource_local_to_scene = true
+background_mode = 2
+background_color = Color(0.765625, 0.230286, 0.230286, 1)
+background_energy_multiplier = 0.0
+sky = SubResource("Sky_182er")
 tonemap_mode = 3
 sdfgi_use_occlusion = true
 sdfgi_read_sky_light = false
 glow_enabled = true
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.0

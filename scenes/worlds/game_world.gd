@@ -55,6 +55,8 @@ func grid_to_world(position : Vector3) -> Vector3:
 
 func _connect_signals() -> void:
 	for node in _spawners:
+		if node == null: return # For while, as we first implement Fencing Sim, this kind of check is needed :(
+		
 		var spawner := node as Spawner
 		if not is_connected("generation_finished", Callable(spawner, "_on_game_world_generation_finished")):
 			connect("generation_finished", Callable(spawner, "_on_game_world_generation_finished"))

@@ -11,7 +11,7 @@ var burn_time : float
 var is_depleted : bool = false
 #var is_dropped: bool = false
 #var is_just_dropped: bool = true
-var light_timer
+@export var light_timer: Timer
 var random_number
 @export var life_percentage_lose : float = 0.0 # (float, 0.0, 1.0)
 @export var prob_going_out : float = 0.0 # (float, 0.0, 1.0)
@@ -19,12 +19,15 @@ var random_number
 var material
 var new_material
 
-@onready var firelight = $FireOrigin/Fire/Light3D
+@export var firelight : Light3D
 
 
 func _ready() -> void:
-	light_timer = $BurnTime
 	self.connect("item_is_dropped", Callable(self, "item_drop"))
+	if !light_timer:
+		light_timer = $BurnTime
+	if !firelight:
+		firelight = $FireOrigin/Fire/Light3D
 	if not light_timer.is_connected("timeout", Callable(self, "_light_depleted")):
 		light_timer.connect("timeout", Callable(self, "_light_depleted"))
 	burn_time = 3600.0

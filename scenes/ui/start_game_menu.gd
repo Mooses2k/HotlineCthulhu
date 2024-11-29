@@ -2,6 +2,7 @@ extends Control
 
 
 const GAME_SCENE = preload("res://scenes/game.tscn")
+const FENCING_SIM_SCENE = preload("res://scenes/worlds/fencing_sim_world.tscn")
 
 var game : Game
 
@@ -51,10 +52,22 @@ func _on_GameIntro_intro_done():
 	##NOT IDEAL, manually adding/removing things like this,
 	# but changes to the changed scene and deletes current one.
 	# to be fixed with the settings unification
-	get_tree().root.add_child(game)
+	game.game_to_load = game.GAMES.BASE_GAME # Sets game to load base game
+	get_tree().root.add_child(game) # start the game here
 	await get_tree().create_timer(0.5).timeout
 	get_tree().call_deferred("unload_current_scene")
 
 
 func _on_ReturnButton_pressed() -> void:
 	var _error = get_tree().change_scene_to_file("res://scenes/ui/title_menu.tscn")
+
+
+func _on_fencing_demo_pressed() -> void:
+	$MarginContainer/HBoxContainer.visible = false
+	$TextureRect.visible = false
+	BackgroundMusic.stop()
+	
+	game.game_to_load = game.GAMES.FENCING_SIM # Sets game to load fencing sim
+	get_tree().root.add_child(game)
+	await get_tree().create_timer(0.5).timeout
+	get_tree().call_deferred("unload_current_scene")
